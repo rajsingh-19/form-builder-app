@@ -1,6 +1,5 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom';
-import "../registerpage/register.css";
 import ellipse1 from "../../assets/ellipse1.svg";
 import ellipse2 from "../../assets/ellipse2.svg";
 import group2 from "../../assets/group2.svg";
@@ -19,7 +18,7 @@ const RegisterPage = () => {
   };
 
   return (
-    <div className='register-container position-relative'>
+    <div className='register-login-container position-relative'>
       <div className='backArrowContainer position-absolute'>
         <button onClick={handlePrevBtn} className='bg-transparent outline-none border-none cursor-pointer'>
           <img className='backArrowIcon' src={backArrow} alt="back arrrow icon" />
@@ -43,15 +42,15 @@ const RegisterPage = () => {
           <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='**********' />
         </div>
         <div className='m-b-10'>
-          <button className='signup-btn outline-none border-none cursor-pointer text-white m-b-10 text-14 letter-spacing-2 font-wt-500 font-poppins'>Sign Up</button>
+          <button className='signup-login-btn outline-none border-none cursor-pointer text-white m-b-10 text-14 letter-spacing-2 font-wt-500 font-poppins'>Sign Up</button>
           <p className='text-white text-center text-12 font-wt-300 font-poppins'>OR</p>
         </div>
       </form>
       <div className='m-b-15'>
-        <button className='signup-btn flex align-center justify-center outline-none border-none cursor-pointer text-white text-14 letter-spacing-2'><img className='google-icon' src={googleIcon} alt="google icon" /><span className='p-lr-20 font-wt-500 font-poppins'>Sign Up with Google</span></button>
+        <button className='signup-login-btn flex align-center justify-center outline-none border-none cursor-pointer text-white text-14 letter-spacing-2'><img className='google-icon' src={googleIcon} alt="google icon" /><span className='p-lr-20 font-wt-500 font-poppins'>Sign Up with Google</span></button>
       </div>
       <div className='flex dir-row'>
-        <p className='text-14 text-white font-wt-400 font-inter'>Already have an account ?</p>&nbsp;<button onClick={handleLoginBtn} className='text-14 bg-transparent border-none login-btn font-wt-400 font-inter cursor-pointer'>Login</button>
+        <p className='text-14 text-white font-wt-400 font-inter'>Already have an account ?</p>&nbsp;<button onClick={handleLoginBtn} className='text-14 bg-transparent border-none loginNow-btn font-wt-400 font-inter cursor-pointer'>Login</button>
       </div>
       {/*               bg svgs        */}
       <div className="ellipse1-container position-absolute">

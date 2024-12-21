@@ -1,4 +1,3 @@
-import './App.css'
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 import LandingPage from './pages/landingpage';
 import RegisterPage from './pages/registerpage';
