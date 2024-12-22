@@ -1,13 +1,31 @@
-import React from 'react'
+import {React, useState} from 'react'
 import { useNavigate } from 'react-router-dom';
 import ellipse1 from "../../assets/ellipse1.svg";
 import ellipse2 from "../../assets/ellipse2.svg";
 import group2 from "../../assets/group2.svg";
 import googleIcon from "../../assets/googleIcon.svg";
 import backArrow from "../../assets/backArrow.svg"
+import { registerUser } from '../../services';
 
 const RegisterPage = () => {
+  const [registerFormData, setRegisterFormData] = useState({
+    userName: '',
+    email: '',
+    password: ''
+  });
+
   const navigate = useNavigate();
+
+  const handleUserRegister = async (e) => {
+    e.preventDefault();
+    const res = await registerUser(registerFormData);
+    if(res.status === 200) {
+      alert("Registered Successfully");
+    } else {
+      console.log(res);
+      alert("An Error Occured");
+    } 
+  };
 
   const handlePrevBtn = () => {
     navigate('/');
@@ -24,18 +42,18 @@ const RegisterPage = () => {
           <img className='backArrowIcon' src={backArrow} alt="back arrrow icon" />
         </button>
       </div>
-      <form >
+      <form onSubmit={handleUserRegister}>
         <div className='flex dir-col m-b-15'>
           <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Username</label>
-          <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='Enter a username' />
+          <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='Enter a username' name={"userName"} value={registerFormData.userName} onChange={(e) => setRegisterFormData({...registerFormData, [e.target.name]: e.target.value})} />
         </div>
         <div className='flex dir-col m-b-15'>
           <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Email</label>
-          <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='Enter your email' />
+          <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='Enter your email' name={"email"} value={registerFormData.email} onChange={(e) => setRegisterFormData({...registerFormData, [e.target.name]: e.target.value})} />
         </div>
         <div className='flex dir-col m-b-15'>
           <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Password</label>
-          <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='**********' />
+          <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='**********' name={"password"} value={registerFormData.password} onChange={(e) => setRegisterFormData({...registerFormData, [e.target.name]: e.target.value})} />
         </div>
         <div className='flex dir-col m-b-15'>
           <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Confirm Password</label>

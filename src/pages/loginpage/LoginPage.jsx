@@ -7,13 +7,14 @@ import googleIcon from "../../assets/googleIcon.svg";
 import backArrow from "../../assets/backArrow.svg"
 
 const LoginPage = () => {
+    // Initialize the useNavigate hook to programmatically navigate between routes
     const navigate = useNavigate();
     
-    const handlePrevBtn = () => {
+    const handlePrevBtn = () => {       //      function for go to landing page 
         navigate('/');
     };
     
-    const handleRegisterBtn = () => {
+    const handleRegisterBtn = () => {       //      function for go to register page 
         navigate('/register');
     };
 

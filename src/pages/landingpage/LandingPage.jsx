@@ -14,7 +14,8 @@ const LandingPage = () => {
     //      function for go to sign in page 
     const handleSignIn = () => {
         navigate('/login');
-    }
+    };
+    
     return (
         <div className="landingPage-container">        
             <nav className="flex dir-row align-center justify-space-btwn m-b-120">
