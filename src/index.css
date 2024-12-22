@@ -7,9 +7,6 @@
   margin: 0;
   box-sizing: border-box;
 }
-body {
-  overflow: hidden;
-}
 /*    font families      */
 .font-poppins {
   font-family: "Poppins";
@@ -32,6 +29,9 @@ body {
 }
 .justify-center {
   justify-content: center;
+}
+.justify-space-btwn {
+  justify-content: space-between;
 }
 .align-center {
   align-items: center;
@@ -110,6 +110,9 @@ body {
 .text-decoration-none {
   text-decoration: none;
 }
+.text-underline {
+  text-decoration: underline;
+}
 .border-none {
   border: none;
 }
@@ -143,12 +146,27 @@ body {
   color: #000000;
 }
 /*      margin     */
+.m-b-3 {
+  margin-bottom: 3px;
+}
+.m-b-5 {
+  margin-bottom: 5px;
+}
 .m-b-10 {
   margin-bottom: 10px;
 }
 .m-b-15 {
   margin-bottom: 18px;
 }
+.m-t-50 {
+  margin-top: 100px;
+}
+.m-b-120 {
+  margin-bottom: 120px;
+}
+.m-r-10 {
+  margin-right: 10px;
+} 
 /*          padding      */
 .p-lr-20 {
   padding-left: 45px;

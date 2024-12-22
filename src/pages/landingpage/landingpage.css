@@ -1,0 +1,81 @@
+.landingPage-container {
+    background-color: #121212;
+}
+/*              navbar       */
+nav {
+    padding: 20px 60px;
+}
+.line-height-20 {
+    line-height: 20px;
+}
+.formBotIcon {
+    width: 35px;
+    height: 35px;
+}
+.signin-btn {
+    width: 85px;
+    height: 35px;
+    border-radius: 6px;
+    border: 1px solid #7EA6FF;
+    color: #7EA6FF;
+}
+.createFormBot-btn {
+    width: 170px;
+    height: 35px;
+    background-color: #1A5FFF;
+    box-shadow: 0px 1px 0px 0px #FFFFFF33 inset;
+    border-radius: 6px;
+}
+/*       main            */
+.svg-container1 {
+    width: 220px;
+    height: 170px;
+    left: 30px;
+}
+.svg-container1 img {
+    width: 100%;
+    height: 100%;
+}
+.svg-container2 {
+    width: 220px;
+    height: 170px;
+    right: 10px;
+}
+.svg-container2 img {
+    width: 100%;
+    height: 100%;
+}
+.headingImg-Container {
+    width: 900px;
+    max-width: 1000px;
+}
+.headingImg-Container img {
+    width: 100%;
+}
+.heading-img-desc p {
+    color: #FFFFFFEB;
+}
+.freeformbot-btn {
+    width: 200px;
+    height: 50px;
+    background-color: #1A5FFF;
+    box-shadow: 0px 1px 0px 0px #FFFFFF33 inset;
+    border-radius: 6px;
+}
+.containerImg-container {
+    width: 1100px;
+    height: 700px;
+}
+.containerImg-container img {
+    width: 100%;
+    height: 100%;
+}
+/*          footer       */
+.footer-container {
+    width: 800px;
+}
+.formBotIcon-footer {
+    width: 20px;
+    height: 20px;
+    margin-right: 5px;
+}
