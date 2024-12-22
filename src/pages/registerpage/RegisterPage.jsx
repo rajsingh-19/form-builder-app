@@ -8,18 +8,34 @@ import backArrow from "../../assets/backArrow.svg"
 import { registerUser } from '../../services';
 
 const RegisterPage = () => {
+  // State to manage form data for registration
   const [registerFormData, setRegisterFormData] = useState({
     userName: '',
     email: '',
-    password: ''
+    password: '',
+    confirmPassword: ''
   });
 
-  const navigate = useNavigate();
+  const navigate = useNavigate();     // Hook for navigating to other routes
 
+  // Function to handle form submission for user registration
   const handleUserRegister = async (e) => {
-    e.preventDefault();
-    const res = await registerUser(registerFormData);
-    if(res.status === 200) {
+    e.preventDefault();     // Prevent default form submission behavior
+    //  check if the password and confirm password are same 
+    if (registerFormData.password !== registerFormData.confirmPassword) {
+      alert("Passwords do not match!");
+      return;
+    }
+    const res = await registerUser(registerFormData);       // Call the registration service
+    // console.log(res);
+    if(res.status === 201) {
+      // Reset form data after successful registration
+      setRegisterFormData({
+        userName: '',
+        email: '',
+        password: '',
+        confirmPassword: ''
+      });
       alert("Registered Successfully");
     } else {
       console.log(res);
@@ -27,10 +43,11 @@ const RegisterPage = () => {
     } 
   };
 
+  // Function to navigate back to the home page
   const handlePrevBtn = () => {
     navigate('/');
   };
-
+  // Function to navigate to the login page
   const handleLoginBtn = () => {
     navigate('/login')
   };
@@ -42,6 +59,7 @@ const RegisterPage = () => {
           <img className='backArrowIcon' src={backArrow} alt="back arrrow icon" />
         </button>
       </div>
+      {/* Form for user registration */}
       <form onSubmit={handleUserRegister}>
         <div className='flex dir-col m-b-15'>
           <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Username</label>
@@ -57,13 +75,14 @@ const RegisterPage = () => {
         </div>
         <div className='flex dir-col m-b-15'>
           <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Confirm Password</label>
-          <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='**********' />
+          <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='**********' name={"confirmPassword"} value={registerFormData.confirmPassword} onChange={(e) => setRegisterFormData({...registerFormData, [e.target.name]: e.target.value})} />
         </div>
         <div className='m-b-10'>
-          <button className='signup-login-btn outline-none border-none cursor-pointer text-white m-b-10 text-14 letter-spacing-2 font-wt-500 font-poppins'>Sign Up</button>
+          <button className='signup-login-btn outline-none border-none cursor-pointer text-white m-b-10 text-14 letter-spacing-2 font-wt-500 font-poppins' type="submit">Sign Up</button>
           <p className='text-white text-center text-12 font-wt-300 font-poppins'>OR</p>
         </div>
       </form>
+      {/* Google Sign-up button */}
       <div className='m-b-15'>
         <button className='signup-login-btn flex align-center justify-center outline-none border-none cursor-pointer text-white text-14 letter-spacing-2'><img className='google-icon' src={googleIcon} alt="google icon" /><span className='p-lr-20 font-wt-500 font-poppins'>Sign Up with Google</span></button>
       </div>

@@ -1,12 +1,36 @@
-import React from "react";
+import { React, useState } from "react";
 import { useNavigate } from 'react-router-dom';
 import ellipse1 from "../../assets/ellipse1.svg";
 import ellipse2 from "../../assets/ellipse2.svg";
 import group2 from "../../assets/group2.svg";
 import googleIcon from "../../assets/googleIcon.svg";
 import backArrow from "../../assets/backArrow.svg"
+import { loginUser } from "../../services";
 
 const LoginPage = () => {
+    // State to manage form data for login
+    const [loginFormData, setLoginFormData] = useState({
+        email: '',
+        password: ''
+    });
+
+    // Function to handle form submission for user login
+    const handleLoginUser = async (e) => {
+        e.preventDefault();     // Prevent default form submission behavior
+        const res = await loginUser(loginFormData);       // Call the login service
+        if(res.status === 200) {
+            // Reset form data after successful registration
+            setLoginFormData({
+                email: '',
+                password: '',
+            });
+            alert("Login Successfully");
+        } else {
+            console.log(res);
+            alert("An Error Occured");
+        } 
+    };
+      
     // Initialize the useNavigate hook to programmatically navigate between routes
     const navigate = useNavigate();
     
@@ -25,17 +49,18 @@ const LoginPage = () => {
                     <img className='backArrowIcon' src={backArrow} alt="back arrrow icon" />
                 </button>
             </div>
-            <form >
+            {/* Form for user login */}
+            <form onSubmit={handleLoginUser}>
                 <div className='flex dir-col m-b-15'>
                     <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Email</label>
-                    <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='Enter your email' />
+                    <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='Enter your email' name={"email"} value={loginFormData.email} onChange={(e) => setLoginFormData({...loginFormData, [e.target.name]: e.target.value})} />
                 </div>
                 <div className='flex dir-col m-b-15'>
                     <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Password</label>
-                    <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='**********' />
+                    <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='**********' name={"password"} value={loginFormData.password} onChange={(e) => setLoginFormData({...loginFormData, [e.target.name]: e.target.value})} />
                 </div>
                 <div className='m-b-10'>
-                    <button className='signup-login-btn outline-none border-none cursor-pointer text-white m-b-10 text-14 letter-spacing-2 font-wt-500 font-poppins'>Log in</button>
+                    <button className='signup-login-btn outline-none border-none cursor-pointer text-white m-b-10 text-14 letter-spacing-2 font-wt-500 font-poppins' type="submit">Log in</button>
                     <p className='text-white text-center text-12 font-wt-300 font-poppins'>OR</p>
                 </div>
             </form>
