@@ -58,7 +58,7 @@ const LandingPage = () => {
                 </div>
             </main>
             {/*                 footer               */}
-            <footer className="flex justify-center m-t-50">
+            <footer className="flex justify-center m-t-100">
                 <div className="footer-container flex dir-row justify-space-btwn m-b-15">
                 <div>
                     <ul className="list-style-none">

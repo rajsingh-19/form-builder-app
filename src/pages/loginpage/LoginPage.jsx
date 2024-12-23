@@ -14,6 +14,9 @@ const LoginPage = () => {
         password: ''
     });
 
+    // Initialize the useNavigate hook to programmatically navigate between routes
+    const navigate = useNavigate();
+    
     // Function to handle form submission for user login
     const handleLoginUser = async (e) => {
         e.preventDefault();     // Prevent default form submission behavior
@@ -25,15 +28,13 @@ const LoginPage = () => {
                 password: '',
             });
             alert("Login Successfully");
+            navigate('/formdashboard');
         } else {
             console.log(res);
             alert("An Error Occured");
         } 
     };
       
-    // Initialize the useNavigate hook to programmatically navigate between routes
-    const navigate = useNavigate();
-    
     const handlePrevBtn = () => {       //      function for go to landing page 
         navigate('/');
     };
