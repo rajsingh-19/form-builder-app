@@ -1,16 +1,16 @@
-.dashboardpage-container {
+.dashboardpageContainer {
     background-color: #121212;
 }
 /*              dashboard navbar         */
-.dashboard-nav {
+.dashboardNav {
     background-color: #121212;
     border-bottom: 1px solid #FFFFFF29;
 }
-.workspace-name-container {
+.workspaceNameContainer {
     border-radius: 6px;
     border: 1px solid #FFFFFF29;
 }
-.share-btn {
+.shareBtn {
     width: 80px;
     height: 35px;
     background-color: #1A5FFF;

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import "./dashboardPage.css";
+import styles from "./dashboard.module.css";
 import CreateFolderModal from "../../components/modals/CreateFolderModal";
 import CreateFormModal from "../../components/modals/CreateFormModal";
 
@@ -28,10 +28,10 @@ const DashboardPage = () => {
     }
 
     return (
-        <div className="dashboardpage-container">
-            <div className="dashboard-nav flex dir-row align-center">
+        <div className={styles.dashboardpageContainer}>
+            <div className={`${styles.dashboardNav} flex dir-row align-center`}>
                 <div className="bg-transparent">
-                    <select name="" className="workspace-name-container bg-transparent text-white" onChange={handleNavigation}>
+                    <select name="" className={`${styles.workspaceNameContainer} bg-transparent text-white`} onChange={handleNavigation}>
                         <option value="workspace" className="text-white bg-transparent">UserName workspace</option>
                         <option value="settings" className="text-white bg-transparent">Settings</option>
                         <option value="logout" className="text-white bg-transparent">Log Out</option>
@@ -46,11 +46,11 @@ const DashboardPage = () => {
                         </label>
                     </div>
                     <div className="flex align-center">
-                        <button className="share-btn text-white text-16 font-wt-500 outline-none border-none bg-transparent">Share</button>
+                        <button className={`${styles.shareBtn} text-white text-16 font-wt-500 outline-none border-none bg-transparent`}>Share</button>
                     </div>
                 </div>
             </div>
-            <div className="dashboard-main">
+            <div className="dashboardMain">
                 <div>
                     <div>
                         <div>

@@ -1,5 +1,5 @@
 import React from 'react'
-import "./modals.css";
+import "./modals.module.css";
 
 const CreateModal = () => {
   return (
