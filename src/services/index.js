@@ -1,5 +1,4 @@
 const apiUrl = import.meta.env.VITE_API_URL;
-// console.log("api url", apiUrl);
 
 //          register a user
 export const registerUser = (userData) => {
@@ -25,7 +24,7 @@ export const loginUser = (userData) => {
 
 //          update the user
 export const updateUser = (userData) => {
-    return fetch(`${apiUrl}api/user/update`, {
+    return fetch(`${apiUrl}api/user/settings`, {
         method: "PUT",
         headers: {
             'Content-Type': 'appliction/json'

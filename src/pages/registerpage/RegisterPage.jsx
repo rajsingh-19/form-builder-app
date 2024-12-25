@@ -1,7 +1,7 @@
 import {React, useState} from 'react'
 import { useNavigate } from 'react-router-dom';
-import ellipse1 from "../../assets/ellipse1.svg";
-import ellipse2 from "../../assets/ellipse2.svg";
+import ellipse1 from "../../assets/ellipse1.png";
+import ellipse2 from "../../assets/ellipse2.png";
 import group2 from "../../assets/group2.svg";
 import googleIcon from "../../assets/googleIcon.svg";
 import backArrow from "../../assets/backArrow.svg"
