@@ -1,7 +1,49 @@
-
-
-
 /*          create modal         */
-.done-btn {
+.createModal {
+    width: 450px;
+    height: 220px;
+    background-color: #18181B;
+    border-radius: 24px;
+    box-shadow: 0px 0px 3.8px 0px #FFFFFF40;
+    border: 1px solid #47474A;
+    padding: 25px;
+    margin-top: 14.5%; 
+}
+.deleteModal {
+    width: 350px;
+    height: 180px;
+    background-color: #18181B;
+    border-radius: 24px;
+    box-shadow: 0px 0px 3.8px 0px #FFFFFF40;
+    border: 1px solid #47474A;
+    padding: 18px;
+    margin-top: 12.5%;  
+}
+.inputContainer {
+    background-color: #1F1F23;
+    border-radius: 12px;
+    width: 420;
+    height: 60px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+.input {
+    width: 100%;
+}
+.input::placeholder {
+    color: #A1A1A14F;
+}
+.verticalLine {
+    height: 50px;
+    color: #47474A;
+    background-color: #47474A;
+    border: 1px solid #47474A;
+}
+.doneBtn {
+    color: #4B83FF;
+}
+
+/*          delete modal         */
+.confirmBtn {
     color: #4B83FF;
 }

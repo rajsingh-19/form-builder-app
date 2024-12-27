@@ -3,10 +3,13 @@
 }
 /*              dashboard navbar         */
 .dashboardNav {
+    height: 10vh;
     background-color: #121212;
     border-bottom: 1px solid #FFFFFF29;
 }
 .workspaceNameContainer {
+    width: 290px;
+    height: 45px;
     border-radius: 6px;
     border: 1px solid #FFFFFF29;
 }
@@ -15,4 +18,87 @@
     height: 35px;
     background-color: #1A5FFF;
     border-radius: 6px;
+}
+/*      dashboard main content */
+.dashboardMainContainer {
+    height: 90vh;
+    background-color:  #121212;
+    padding-left: 150px;
+    padding-right: 150px;
+}
+.folderFormContainer {
+    padding-top: 40px;
+    width: 900px;
+}
+.createFolderBtn {
+    width: 150px;
+    height: 40px;
+    border-radius: 6px;
+    background-color: #FFFFFF14;
+}
+.createFolderBtn img {
+    margin-right: 5px;
+}
+.createFormBtn {
+    width: 180px;
+    height: 210px;
+    border-radius: 6px;
+    background-color: #1A5FFF;
+}
+.createFormBtn img {
+    margin-bottom: 25px;
+}
+/*      new folder  */
+.newFolder {
+    width: 190px;
+    height: 40px;
+    border-radius: 6px;
+    background-color: #FFFFFF14;
+    padding-left: 8px;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.deleteBtn {
+    margin-left: 10px;
+    right: 10px;
+}
+.deleteIcon {
+    width: 20px;
+    height: 20px;
+}
+/*     new form      */
+.newForm {
+    width: 180px;
+    height: 210px;
+    border-radius: 6px;
+    background-color: #FFFFFF80;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.cornerDeleteBtn {
+    left: 170px;
+    top: -10px;
+}
+.cornerDeleteIcon {
+    width: 20px;
+    height: 20px;
+}
+/*           */
+.flexWrapNow {
+    flex-wrap: wrap; /* Allows wrapping to the next line */
+    gap: 10px; /* Adjust spacing between items */
+}
+/*          modal view container        */
+.modalViewContainer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    width: 100%;
+    height: 100%;
 }

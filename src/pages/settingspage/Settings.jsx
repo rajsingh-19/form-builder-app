@@ -16,6 +16,13 @@ const SettingPage = () => {
 
   const hanldeUpdateUser = async (e) => {
     e.preventDefault();
+    
+    // If newPassword is provided, ensure oldPassword is also included
+    if (updateFormData.newPassword && !updateFormData.oldPassword) {
+      alert('Please provide your old password to change your password');
+      return;
+    }
+
     const res = await updateUser(updateFormData);           // Call the registration service
     if(res.status === 200) {
       // Reset form data after successful registration

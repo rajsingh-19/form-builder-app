@@ -24,7 +24,7 @@ export const loginUser = (userData) => {
 
 //          update the user
 export const updateUser = (userData) => {
-    return fetch(`${apiUrl}api/user/settings`, {
+    return fetch(`${apiUrl}api/user/update`, {
         method: "PUT",
         headers: {
             'Content-Type': 'appliction/json'

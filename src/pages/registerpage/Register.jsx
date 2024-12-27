@@ -71,11 +71,11 @@ const RegisterPage = () => {
         </div>
         <div className='flex dir-col m-b-15'>
           <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Password</label>
-          <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='**********' name={"password"} value={registerFormData.password} onChange={(e) => setRegisterFormData({...registerFormData, [e.target.name]: e.target.value})} />
+          <input type="password" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='**********' name={"password"} value={registerFormData.password} onChange={(e) => setRegisterFormData({...registerFormData, [e.target.name]: e.target.value})} />
         </div>
         <div className='flex dir-col m-b-15'>
           <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Confirm Password</label>
-          <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='**********' name={"confirmPassword"} value={registerFormData.confirmPassword} onChange={(e) => setRegisterFormData({...registerFormData, [e.target.name]: e.target.value})} />
+          <input type="password" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='**********' name={"confirmPassword"} value={registerFormData.confirmPassword} onChange={(e) => setRegisterFormData({...registerFormData, [e.target.name]: e.target.value})} />
         </div>
         <div className='m-b-10'>
           <button className='signup-login-btn outline-none border-none cursor-pointer text-white m-b-10 text-14 letter-spacing-2 font-wt-500 font-poppins' type="submit">Sign Up</button>
