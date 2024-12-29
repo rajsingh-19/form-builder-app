@@ -60,10 +60,12 @@ export const createDashboard = (userId) => {
   
 //          Create Folder API
 export const createFolder = (userId, folderName) => {
-    return fetch(`${apiUrl}api/folder`, {
+    const dashboardId = localStorage.getItem('dashboardId');        // Extract the dashboardId from localStorage
+    return fetch(`${apiUrl}api/folder/${dashboardId}/folder`, {
         method: "POST",
         headers: { 
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json',
+            'Authorization': `${localStorage.getItem('token')}`
         },
         body: JSON.stringify({ userId, folderName }),
     })

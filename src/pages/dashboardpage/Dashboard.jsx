@@ -45,11 +45,15 @@ const DashboardPage = () => {
                       setForms(newDashboard.forms || []);
                       setUserName(newDashboard.userName || "User");
                     }
+                    // Store the dashboardId in localStorage
+                    localStorage.setItem('dashboardId', newDashboard._id);  // Set the dashboardId
                   } else {
                     // If dashboard exists, populate data
                     setFolders(data.folders || []);
                     setForms(data.forms || []);
                     setUserName(data.userName || "User");
+                    // Store the existing dashboardId in localStorage
+                    localStorage.setItem('dashboardId', data.dashboard._id);  // Set the dashboardId
                   }
             } catch (err) {
                 console.error(err);

@@ -21,10 +21,10 @@ const SettingPage = () => {
     e.preventDefault();
     
     // If newPassword is provided, ensure oldPassword is also included
-    if (updateFormData.newPassword && !updateFormData.oldPassword) {
-      alert('Please provide your old password to change your password');
+    if ((updateFormData.newPassword && !updateFormData.oldPassword) || (updateFormData.oldPassword && !updateFormData.newPassword))  {
+      alert('Please provide both old and new password to change your password');
       return;
-    }
+    };
 
     const res = await updateUser(updateFormData);           // Call the registration service
     if(res.status === 200) {
