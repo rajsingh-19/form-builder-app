@@ -7,7 +7,7 @@ import Dashboard from "./pages/dashboardpage";
 import Setting from "./pages/settingpage";
 import Workspace from "./pages/workspacepage";
 import Response from "./pages/responsepage"
-import FormBot from "./pages/formbotpage/FormBot";
+import FormBot from "./pages/formbotpage";
 
 function App() {
   return (
