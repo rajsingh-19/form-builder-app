@@ -6,8 +6,8 @@ import CreateModal from "../../components/modals/CreateModal";
 import DeleteModal from "../../components/modals/DeleteModal";
 import NewFolder from "../../components/folder/NewFolder";
 import NewForm from "../../components/form/NewForm";
-import createfolder from "../../assets/createfolder.svg";
-import createform from "../../assets/createform.svg";
+import createfolderIcon from "../../assets/createfolder.svg";
+import createformIcon from "../../assets/createform.svg";
 
 const DashboardPage = () => {
     const [userName, setUserName] = useState("");
@@ -125,7 +125,7 @@ const DashboardPage = () => {
                     <div className={`${styles.flexWrapNow} flex dir-row`}>
                         <div className={`${styles.flexWrapNow} m-r-10`}>
                             <button className={`${styles.createFolderBtn} outline-none border-none cursor-pointer flex dir-row justify-center align-center`} onClick={handleCreateFolder}>
-                                <img src={createfolder} alt="create folder icon" />
+                                <img src={createfolderIcon} alt="create folder icon" />
                                 <span className="font-open-sans font-wt-400 text-16 text-white">Create a folder</span>
                             </button>
                         </div>
@@ -138,7 +138,7 @@ const DashboardPage = () => {
                     <div className={`${styles.flexWrapNow} flex dir-row m-t-40`}>
                         <div className="m-r-15">
                             <button className={`${styles.createFormBtn} outline-none border-none cursor-pointer flex dir-col align-center justify-center`} onClick={handleCreateForm}>
-                                <img src={createform} alt="create form icon" />
+                                <img src={createformIcon} alt="create form icon" />
                                 <span className="font-open-sans font-wt-400 text-16 text-white">Create a typebot</span>
                             </button>
                         </div>
