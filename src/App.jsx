@@ -16,7 +16,7 @@ function App() {
         <Route path='/' element={<LandingPage />} />
         <Route path='/register' element={<Register />} />
         <Route path='/login' element={<Login />} />
-        <Route path='/dashboard' element={<Dashboard />} />
+        <Route path='/dashboard/:userId' element={<Dashboard />} />
         <Route path="/setting" element={<Setting />} />
         <Route path="/workspace/:formId" element={<Workspace />} />
         <Route path="/response/:formId" element={<Response />} />

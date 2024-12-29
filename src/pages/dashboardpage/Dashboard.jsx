@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchDashboardData, createFolder, createForm } from "../../services/index";
 import styles from "./dashboard.module.css";
 import CreateModal from "../../components/modals/CreateModal";
@@ -19,10 +19,13 @@ const DashboardPage = () => {
     // For navigation control
     const navigate = useNavigate();
 
+    // Get userId from URL params
+    const { userId } = useParams();  // Retrieve userId from URL
+
     useEffect(() => {
         const fetchData = async () => {
           try {
-            const data = await fetchDashboardData(1); // Fetch data for user ID 1 (should be dynamic)
+            const data = await fetchDashboardData(userId); // Fetch data for user ID 1 (should be dynamic)
             setFolders(data.folders);
             setForms(data.forms);
             setUserName(data.userName);
@@ -31,7 +34,7 @@ const DashboardPage = () => {
           }
         };
         fetchData();
-    }, []);
+    }, []);                     // Trigger fetchData when userId changes
 
     // Handle navigation (settings or logout)
     const handleNavigation = (e) => {
@@ -107,7 +110,7 @@ const DashboardPage = () => {
             <div className={`${styles.dashboardNav} flex dir-row align-center`}>
                 <div className="bg-transparent">
                     <select name="" className={`${styles.workspaceNameContainer} bg-transparent text-white`} onChange={handleNavigation}>
-                        <option value="workspace" className="text-white bg-transparent">UserName workspace</option>
+                        <option value="workspace" className="text-white bg-transparent">{userName}'s workspace</option>
                         <option value="settings" className="text-white bg-transparent">Settings</option>
                         <option value="logout" className="text-white bg-transparent">Log Out</option>
                     </select>
