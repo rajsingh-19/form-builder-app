@@ -5,7 +5,7 @@ import ellipse2 from "../../assets/ellipse2.png";
 import group2 from "../../assets/group2.svg";
 import googleIcon from "../../assets/googleIcon.svg";
 import backArrow from "../../assets/backArrow.svg"
-import { loginUser } from "../../services";
+import { loginUser } from "../../services/index";
 
 const LoginPage = () => {
     // State to manage form data for login
