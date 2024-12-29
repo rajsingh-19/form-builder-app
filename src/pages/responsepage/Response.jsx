@@ -1,5 +1,5 @@
 import {React, useState} from "react";
-import { fetchFormAnalytics } from "../../services";
+import { fetchFormAnalytics } from "../../services/index";
 import { useParams } from "react-router-dom";
 import { PieChart } from 'react-minimal-pie-chart';
 import styles from "./response.module.css";

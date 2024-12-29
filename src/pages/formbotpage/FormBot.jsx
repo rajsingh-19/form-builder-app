@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { fetchFormData, submitFormResponse } from "../../services/api";
+import { fetchFormData, submitFormResponse } from "../../services/index";
 import { useParams } from "react-router-dom";
 import styles from "./formbot.module.css";
 
