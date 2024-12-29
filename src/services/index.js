@@ -27,7 +27,7 @@ export const updateUser = (userData) => {
     return fetch(`${apiUrl}api/auth/update`, {
         method: "PUT",
         headers: {
-            'Content-Type': 'appliction/json'
+            'Content-Type': 'application/json'
         },
         body: JSON.stringify(userData)
     })
@@ -35,14 +35,18 @@ export const updateUser = (userData) => {
 
 //          Fetch User Dashboard Data
 export const fetchDashboardData = (userId) => {
-    return fetch(`${apiUrl}dashboard/${userId}`, {
-        method: "GET"
+    return fetch(`${apiUrl}api/dashboard/${userId}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${localStorage.getItem('token')}`
+        }
     })
 };
   
 //          Create Folder API
 export const createFolder = (userId, folderName) => {
-    return fetch(`${apiUrl}folder`, {
+    return fetch(`${apiUrl}api/folder`, {
         method: "POST",
         headers: { 
             'Content-Type': 'application/json' 
@@ -53,7 +57,7 @@ export const createFolder = (userId, folderName) => {
  
 //          Create Form API
 export const createForm = (userId, formName, folderId = null) => {
-    return fetch(`${apiUrl}form`, {
+    return fetch(`${apiUrl}api/form`, {
         method: "POST",
         headers: { 
             'Content-Type': 'application/json' 
@@ -64,14 +68,14 @@ export const createForm = (userId, formName, folderId = null) => {
 
 //          Fetch Form Data for FormBot
 export const fetchFormData = (formId) => {
-    return fetch(`${apiUrl}form/${formId}`, {
+    return fetch(`${apiUrl}api/form/${formId}`, {
         method: "GET"
     })
 };
   
 //          Submit Form Responses
 export const submitFormResponse = (formId, responses) => {
-    return fetch(`${apiUrl}form/response`, {
+    return fetch(`${apiUrl}api/form/response`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -82,7 +86,7 @@ export const submitFormResponse = (formId, responses) => {
 
 //          Fetch Form Analytics
 export const fetchFormAnalytics = (formId) => {
-    return fetch(`${apiUrl}form/ananlytics/${formId}`, {
+    return fetch(`${apiUrl}api/form/ananlytics/${formId}`, {
         method: "GET"
     })
 };

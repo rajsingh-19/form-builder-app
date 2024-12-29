@@ -34,7 +34,9 @@ const DashboardPage = () => {
 
         const fetchData = async () => {
             try {
-                const data = await fetchDashboardData(userId); // Fetch data for user ID
+                const res = await fetchDashboardData(userId); // Fetch data for user ID
+                const data = await res.json();
+                console.log(data);
                 setFolders(data.folders);
                 setForms(data.forms);
                 setUserName(data.userName);

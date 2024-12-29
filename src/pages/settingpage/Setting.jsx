@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import styles from "./setting.module.css";
 import { updateUser } from '../../services';
 import profile from "../../assets/profile.svg";
@@ -13,6 +14,8 @@ const SettingPage = () => {
     oldPassword: '',
     newPassword: ''
   });
+
+  const navigate = useNavigate();
 
   const hanldeUpdateUser = async (e) => {
     e.preventDefault();
