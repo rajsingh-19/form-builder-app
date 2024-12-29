@@ -29,10 +29,10 @@ const SettingPage = () => {
     const res = await updateUser(updateFormData);           // Call the registration service
     if(res.status === 200) {
       // Reset form data after successful registration
-      setRegisterFormData({
+      setUpdateFormData({
         userName: '',
         email: '',
-        password: '',
+        oldPassword: '',
         newPassword: ''
       });
       alert("User Updated Successfully");
@@ -66,12 +66,12 @@ const SettingPage = () => {
         </div>
         <div className={`${styles.settingInpContainer} flex dir-row align-center m-b-20`}>
           <img className={styles.inputIcons} src={lock} alt="lock icon" />
-          <input className={`${styles.settingInput} outline-none border-none bg-transparent text-white text-20`} type="text" placeholder='Old Password' name='oldPassword' value={updateFormData.oldPassword} onChange={(e) => setUpdateFormData({...updateFormData, [e.target.name]: e.target.value})} />
+          <input className={`${styles.settingInput} outline-none border-none bg-transparent text-white text-20`} type="password" placeholder='Old Password' name='oldPassword' value={updateFormData.oldPassword} onChange={(e) => setUpdateFormData({...updateFormData, [e.target.name]: e.target.value})} />
           <img className={styles.inputIcons} src={view} alt="view icon" />
         </div>
         <div className={`${styles.settingInpContainer} flex dir-row align-center m-b-40`}>
           <img className={styles.inputIcons} src={lock} alt="lock icon" />
-          <input className={`${styles.settingInput} outline-none border-none bg-transparent text-white text-20`} type="text" placeholder='New Password' name='newPassword' value={updateFormData.newPassword} onChange={(e) => setUpdateFormData({...updateFormData, [e.target.name]: e.target.value})} />
+          <input className={`${styles.settingInput} outline-none border-none bg-transparent text-white text-20`} type="password" placeholder='New Password' name='newPassword' value={updateFormData.newPassword} onChange={(e) => setUpdateFormData({...updateFormData, [e.target.name]: e.target.value})} />
           <img className={styles.inputIcons} src={view} alt="view icon" />
         </div>
         <div>
