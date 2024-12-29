@@ -63,7 +63,7 @@ const DashboardPage = () => {
     const handleNavigation = (e) => {
         const selectedOption = e.target.value;
         if (selectedOption === "settings") {
-            navigate("/settings");
+            navigate("/setting");
         } else if (selectedOption === "logout") {
             console.log("User logged out");
         } 

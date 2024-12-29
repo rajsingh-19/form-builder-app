@@ -27,7 +27,8 @@ export const updateUser = (userData) => {
     return fetch(`${apiUrl}api/auth/update`, {
         method: "PUT",
         headers: {
-            'Content-Type': 'application/json'
+            'Content-Type': 'application/json',
+            'Authorization': `${localStorage.getItem('token')}`
         },
         body: JSON.stringify(userData)
     })
