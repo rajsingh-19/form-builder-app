@@ -23,15 +23,24 @@ const DashboardPage = () => {
     const { userId } = useParams();  // Retrieve userId from URL
 
     useEffect(() => {
+        const token = localStorage.getItem("token");
+        const userId = localStorage.getItem("userId");
+
+        if (!token || !userId) {
+            alert("Session expired. Please log in again.");
+            navigate("/");
+            return;
+        };
+
         const fetchData = async () => {
-          try {
-            const data = await fetchDashboardData(userId); // Fetch data for user ID 1 (should be dynamic)
-            setFolders(data.folders);
-            setForms(data.forms);
-            setUserName(data.userName);
-          } catch (err) {
-            setError(err.message);
-          }
+            try {
+                const data = await fetchDashboardData(userId); // Fetch data for user ID
+                setFolders(data.folders);
+                setForms(data.forms);
+                setUserName(data.userName);
+            } catch (err) {
+                setError(err.message);
+            }
         };
         fetchData();
     }, []);                     // Trigger fetchData when userId changes

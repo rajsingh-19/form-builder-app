@@ -20,15 +20,26 @@ const LoginPage = () => {
     // Function to handle form submission for user login
     const handleLoginUser = async (e) => {
         e.preventDefault();     // Prevent default form submission behavior
+
         const res = await loginUser(loginFormData);       // Call the login service
         if(res.status === 200) {
+            const data = await res.json();
+
+            // Extract the token and userId
+            const token = data.token;
+            const userId = data.userId;
+
+            // Save token or userId in localStorage
+            localStorage.setItem("token", token); // Save token for later use
+            localStorage.setItem("userId", userId); // Save userId
+
             // Reset form data after successful registration
             setLoginFormData({
                 email: '',
                 password: '',
             });
             alert("Login Successfully");
-            navigate('/dashboard');
+            navigate(`/dashboard/${userId}`); // Navigate to the dashboard with userId
         } else {
             console.log(res);
             alert("An Error Occured");

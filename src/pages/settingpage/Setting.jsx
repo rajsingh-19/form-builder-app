@@ -39,6 +39,15 @@ const SettingPage = () => {
     }
   };
 
+  const handleLogout = () => {
+    // Remove user data from localStorage (i.e., token and userId)
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+    
+    // Redirect the user to the login page
+    navigate("/login");
+  };
+
   return (
     <div className={`${styles.settingsContainer} flex dir-col align-center position-relative`}>
       <div className='font-open-sans font-wt-600 text-white text-22 m-t-30 m-b-40'>Settings</div>
@@ -67,7 +76,7 @@ const SettingPage = () => {
         </div>
       </form>
       <div className={`${styles.logoutBtnContainer} position-absolute`}>
-        <button className={`${styles.logoutBtn} flex dir-row align-center bg-transparent outline-none border-none cursor-pointer`}>
+        <button onClick={handleLogout} className={`${styles.logoutBtn} flex dir-row align-center bg-transparent outline-none border-none cursor-pointer`}>
           <img className={`${styles.logoutIcon} m-r-10`} src={logoutArrow} alt="log out arrow" />
           <span className='text-16 font-wt-500 font-poppins'>Log out</span>
         </button>
