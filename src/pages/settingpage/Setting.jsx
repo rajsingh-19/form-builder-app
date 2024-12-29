@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import styles from "./settings.module.css";
+import styles from "./setting.module.css";
 import { updateUser } from '../../services';
 import profile from "../../assets/profile.svg";
 import view from "../../assets/view.svg";
