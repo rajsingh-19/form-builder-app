@@ -37,6 +37,7 @@ const RegisterPage = () => {
         confirmPassword: ''
       });
       alert("Registered Successfully");
+      navigate('/login');
     } else {
       console.log(res);
       alert("An Error Occured");

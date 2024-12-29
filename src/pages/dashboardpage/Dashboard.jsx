@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { fetchDashboardData, createfolder, createForm } from "../../services/index";
+import { fetchDashboardData, createFolder, createForm } from "../../services/index";
 import styles from "./dashboard.module.css";
 import CreateModal from "../../components/modals/CreateModal";
 import DeleteModal from "../../components/modals/DeleteModal";

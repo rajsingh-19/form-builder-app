@@ -35,14 +35,14 @@ export const updateUser = (userData) => {
 
 //          Fetch User Dashboard Data
 export const fetchDashboardData = (userId) => {
-    return fetch(`${apiUrl}/dashboard/${userId}`, {
+    return fetch(`${apiUrl}dashboard/${userId}`, {
         method: "GET"
     })
 };
   
 //          Create Folder API
 export const createFolder = (userId, folderName) => {
-    return fetch(`${apiUrl}/folder`, {
+    return fetch(`${apiUrl}folder`, {
         method: "POST",
         headers: { 
             'Content-Type': 'application/json' 
@@ -53,7 +53,7 @@ export const createFolder = (userId, folderName) => {
  
 //          Create Form API
 export const createForm = (userId, formName, folderId = null) => {
-    return fetch(`${apiUrl}/form`, {
+    return fetch(`${apiUrl}form`, {
         method: "POST",
         headers: { 
             'Content-Type': 'application/json' 
@@ -64,14 +64,14 @@ export const createForm = (userId, formName, folderId = null) => {
 
 //          Fetch Form Data for FormBot
 export const fetchFormData = (formId) => {
-    return fetch(`${apiUrl}/form/${formId}`, {
+    return fetch(`${apiUrl}form/${formId}`, {
         method: "GET"
     })
 };
   
 //          Submit Form Responses
 export const submitFormResponse = (formId, responses) => {
-    return fetch(`${apiUrl}/form/response`, {
+    return fetch(`${apiUrl}form/response`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
@@ -82,14 +82,14 @@ export const submitFormResponse = (formId, responses) => {
 
 //          Fetch Form Analytics
 export const fetchFormAnalytics = (formId) => {
-    return fetch(`${apiUrl}/form/ananlytics/${formId}`, {
+    return fetch(`${apiUrl}form/ananlytics/${formId}`, {
         method: "GET"
     })
 };
   
 // Invite User via Email
 export const inviteUser = async (email, accessMode, dashboardId) => {
-    return fetch(`${apiUrl}/invite`, {
+    return fetch(`${apiUrl}invite`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json'
