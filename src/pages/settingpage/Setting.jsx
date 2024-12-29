@@ -46,6 +46,7 @@ const SettingPage = () => {
     // Remove user data from localStorage (i.e., token and userId)
     localStorage.removeItem("token");
     localStorage.removeItem("userId");
+    localStorage.removeItem("dashboardId");
     
     // Redirect the user to the login page
     navigate("/login");

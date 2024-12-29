@@ -63,12 +63,23 @@ const DashboardPage = () => {
         fetchData();
     }, [navigate]);                     // Trigger fetchData when userId changes
 
+    const handleLogout = () => {
+        // Remove user data from localStorage (i.e., token and userId)
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("dashboardId");
+        
+        // Redirect the user to the login page
+        navigate("/login");
+    };
+
     // Handle navigation (settings or logout)
     const handleNavigation = (e) => {
         const selectedOption = e.target.value;
         if (selectedOption === "settings") {
             navigate("/setting");
         } else if (selectedOption === "logout") {
+            handleLogout();
             console.log("User logged out");
         } 
     };
