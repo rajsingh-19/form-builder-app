@@ -46,7 +46,7 @@ export const fetchDashboardData = (userId) => {
 
 // Create Dashboard API
 export const createDashboard = (userId) => {
-    return fetch(`${apiUrl}api/dashboard`, {
+    return fetch(`${apiUrl}api/dashboard/create`, {
         method: "POST",
         headers: {
             'Content-Type': 'application/json',
