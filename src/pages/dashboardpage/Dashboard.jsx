@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { fetchDashboardData, createfolder, createForm } from "../../services/index";
 import styles from "./dashboard.module.css";
 import CreateModal from "../../components/modals/CreateModal";
 import DeleteModal from "../../components/modals/DeleteModal";
@@ -9,13 +10,28 @@ import createfolder from "../../assets/createfolder.svg";
 import createform from "../../assets/createform.svg";
 
 const DashboardPage = () => {
-    const [modalData, setModalData] = useState({ isVisible: false, title: "", onSubmit: null });
-    const [deleteModalData, setDeleteModalData] = useState({ isVisible: false, folderId: null });
+    const [userName, setUserName] = useState("");
     const [folders, setFolders] = useState([]);
     const [forms, setForms] = useState([]);
+    const [modalData, setModalData] = useState({ isVisible: false, title: "", onSubmit: null });
+    const [deleteModalData, setDeleteModalData] = useState({ isVisible: false, folderId: null });
 
     // For navigation control
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const data = await fetchDashboardData(1); // Fetch data for user ID 1 (should be dynamic)
+            setFolders(data.folders);
+            setForms(data.forms);
+            setUserName(data.userName);
+          } catch (err) {
+            setError(err.message);
+          }
+        };
+        fetchData();
+    }, []);
 
     // Handle navigation (settings or logout)
     const handleNavigation = (e) => {
@@ -27,21 +43,22 @@ const DashboardPage = () => {
         } 
     };
 
-    // Function to open the "Create Folder" modal
+    // Open the "Create Folder" modal
     const handleCreateFolder = () => {
         setModalData({
           isVisible: true,
           title: "Create a Folder",
           onSubmit: (folderName) => {
             if (folderName) {
-                const newFolder = { id: Date.now(), folderName };    // Unique ID and folderName
-                setFolders([...folders, newFolder]);                // Add folder to the list
+                const newFolder = { id: Date.now(), folderName };    
+                setFolders([...folders, newFolder]);    
             };
             window.alert("Folder created");
-            closeModal();           // Close the modal
+            closeModal();  // Close the modal
           }
         });
     };
+
 
     // Function to open the "Create Form" modal
     const handleCreateForm = () => {
@@ -58,7 +75,7 @@ const DashboardPage = () => {
           }
         });
     };
-
+    
     // Close modal handler
     const closeModal = () => {
         setModalData({ ...modalData, isVisible: false });           // Close modal handler

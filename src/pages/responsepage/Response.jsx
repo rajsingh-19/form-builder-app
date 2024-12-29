@@ -1,16 +1,39 @@
 import {React, useState} from "react";
+import { fetchFormAnalytics } from "../../services";
+import { useParams } from "react-router-dom";
 import { PieChart } from 'react-minimal-pie-chart';
 import styles from "./response.module.css";
 import FlowRespNav from "../../components/flowrRsponsNav/FlowRespNav";
 
 const Response = () => {
-    const [analytics, setAnalytics] = useState(true);
+    const { formId } = useParams();
+    const [analytics, setAnalytics] = useState(null);
+
+    useEffect(() => {
+        const fetchAnalytics = async () => {
+          try {
+            const data = await fetchFormAnalytics(formId);
+            setAnalytics(data);
+          } catch (err) {
+            setError(err.message);
+          }
+        };
+        fetchAnalytics();
+    }, [formId]);
+    
+    if (error) {
+        return <div>Error: {error}</div>;
+    };
+    
+    if (!analytics) {
+        return <div>Loading...</div>;
+    };
 
     return (
         <div>
+            <FlowRespNav />
             {analytics && (
             <div>
-                <FlowRespNav />
                 {/*         stats container      */}
                 <div>
                     <div>

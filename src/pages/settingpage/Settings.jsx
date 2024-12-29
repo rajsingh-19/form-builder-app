@@ -23,7 +23,7 @@ const SettingPage = () => {
       return;
     }
 
-    const res = await updateUser(updateFormData);           // Call the registration service
+    const res = await updateUser(1, updateFormData);           // Call the registration service
     if(res.status === 200) {
       // Reset form data after successful registration
       setRegisterFormData({

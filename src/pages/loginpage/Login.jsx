@@ -28,7 +28,7 @@ const LoginPage = () => {
                 password: '',
             });
             alert("Login Successfully");
-            navigate('/formdashboard');
+            navigate('/dashboard');
         } else {
             console.log(res);
             alert("An Error Occured");
