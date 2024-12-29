@@ -43,6 +43,19 @@ export const fetchDashboardData = (userId) => {
         }
     })
 };
+
+// Create Dashboard API
+export const createDashboard = (userId) => {
+    return fetch(`${apiUrl}api/dashboard`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({ userId })
+    });
+};
+
   
 //          Create Folder API
 export const createFolder = (userId, folderName) => {

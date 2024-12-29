@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchDashboardData, createFolder, createForm } from "../../services/index";
+import { fetchDashboardData, createDashboard, createFolder, createForm } from "../../services/index";
 import styles from "./dashboard.module.css";
 import CreateModal from "../../components/modals/CreateModal";
 import DeleteModal from "../../components/modals/DeleteModal";
@@ -36,16 +36,28 @@ const DashboardPage = () => {
             try {
                 const res = await fetchDashboardData(userId); // Fetch data for user ID
                 const data = await res.json();
-                console.log(data);
-                setFolders(data.folders);
-                setForms(data.forms);
-                setUserName(data.userName);
+
+                if (!data.dashboard) {
+                    // If no dashboard exists, create one
+                    const newDashboard = await handleCreateDashboard(userId);
+                    if (newDashboard) {
+                      setFolders(newDashboard.folders || []);
+                      setForms(newDashboard.forms || []);
+                      setUserName(newDashboard.userName || "User");
+                    }
+                  } else {
+                    // If dashboard exists, populate data
+                    setFolders(data.folders || []);
+                    setForms(data.forms || []);
+                    setUserName(data.userName || "User");
+                  }
             } catch (err) {
-                setError(err.message);
+                console.error(err);
+                alert("Error fetching dashboard data.");
             }
         };
         fetchData();
-    }, []);                     // Trigger fetchData when userId changes
+    }, [navigate]);                     // Trigger fetchData when userId changes
 
     // Handle navigation (settings or logout)
     const handleNavigation = (e) => {
@@ -57,17 +69,34 @@ const DashboardPage = () => {
         } 
     };
 
+    // Create dashboard if not exists
+    const handleCreateDashboard = async (userId) => {
+        try {
+            const response = await createDashboard({ userId });
+            return response.data; // Return the created dashboard
+        } catch (error) {
+            console.error("Error creating dashboard:", error);
+            alert("Failed to create dashboard. Please try again.");
+            return null;
+        }
+    };
+
     // Open the "Create Folder" modal
     const handleCreateFolder = () => {
         setModalData({
           isVisible: true,
           title: "Create a Folder",
-          onSubmit: (folderName) => {
-            if (folderName) {
-                const newFolder = { id: Date.now(), folderName };    
-                setFolders([...folders, newFolder]);    
-            };
-            window.alert("Folder created");
+          onSubmit: async (folderName) => {
+            if(folderName) {
+                try {
+                    const res = await createFolder({ userId, folderName });         // Pass userId and folderName
+                    const newFolder = await res.json();                             // Parse the created folder from the response
+                    setFolders([...folders, newFolder]);    
+                    window.alert("Folder created");
+                } catch (err) {
+                    console.error("Error creating folder:", err);
+                }
+            }
             closeModal();  // Close the modal
           }
         });
@@ -75,16 +104,21 @@ const DashboardPage = () => {
 
 
     // Function to open the "Create Form" modal
-    const handleCreateForm = () => {
+    const handleCreateForm = (folderId=null) => {
         setModalData({
           isVisible: true,
           title: "Create a Form",
-          onSubmit: (formName) => {
-            if (formName) {
-                const newForm = { id: Date.now(), formName };       // Unique ID and formName
-                setForms([...forms, newForm]);                      // Add form to the list
+          onSubmit: async (formName) => {
+            if(formName) {
+                try {
+                    const res = await createForm({ userId, formName, folderId });       // Pass userId, formName, and folderId
+                    const newForm = await res.json();                                   // Parse the created form from the response
+                    setForms([...forms, newForm]);                                     // update form states
+                    window.alert("Form created");
+                } catch (err) {
+                    console.error("Error creating form:", err);
+                }
             };
-            window.alert("Form created");
             closeModal();           // Close the modal
           }
         });
