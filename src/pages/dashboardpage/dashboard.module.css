@@ -3,25 +3,48 @@
 }
 /*              dashboard navbar         */
 .dashboardNav {
-    height: 10vh;
+    height: 9vh;
     background-color: #121212;
     border-bottom: 1px solid #FFFFFF29;
+    padding: 0 40px;
 }
-.workspaceNameContainer {
-    width: 290px;
-    height: 45px;
+.optionContainer {
     border-radius: 6px;
     border: 1px solid #FFFFFF29;
+    border-radius: 6px;
+    margin: 0 auto;
+}
+.eachOption {
+    width: 290px;
+    height: 40px;
+    border-bottom: 1px solid #3D3D3F;
+}
+.optionContainer > .eachOption {
+    border-bottom: none;
+}
+.dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    z-index: 10;
+    border: 1px solid #FFFFFF29;
+    border-radius: 6px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+.optionLogout {
+    color: #FFA54C;
 }
 .shareBtn {
     width: 80px;
     height: 35px;
     background-color: #1A5FFF;
     border-radius: 6px;
+    margin-left: 20px;
 }
 /*      dashboard main content */
 .dashboardMainContainer {
-    height: 90vh;
+    height: 91vh;
     background-color:  #121212;
     padding-left: 150px;
     padding-right: 150px;

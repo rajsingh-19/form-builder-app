@@ -192,6 +192,11 @@
   margin-right: 15px;
 }
 /*          padding      */
+.p-lr-10 {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .p-lr-20 {
   padding-left: 45px;
   padding-right: 45px;

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchDashboardData, createDashboard, createFolder, createForm } from "../../services/index";
+import DashboardNav from "../../components/dashboardNav/DashboardNav";
 import styles from "./dashboard.module.css";
 import CreateModal from "../../components/modals/CreateModal";
 import DeleteModal from "../../components/modals/DeleteModal";
@@ -62,27 +63,6 @@ const DashboardPage = () => {
         };
         fetchData();
     }, [navigate]);                     // Trigger fetchData when userId changes
-
-    const handleLogout = () => {
-        // Remove user data from localStorage (i.e., token and userId)
-        localStorage.removeItem("token");
-        localStorage.removeItem("userId");
-        localStorage.removeItem("dashboardId");
-        
-        // Redirect the user to the login page
-        navigate("/login");
-    };
-
-    // Handle navigation (settings or logout)
-    const handleNavigation = (e) => {
-        const selectedOption = e.target.value;
-        if (selectedOption === "settings") {
-            navigate("/setting");
-        } else if (selectedOption === "logout") {
-            handleLogout();
-            console.log("User logged out");
-        } 
-    };
 
     // Create dashboard if not exists
     const handleCreateDashboard = async (userId) => {
@@ -179,21 +159,7 @@ const DashboardPage = () => {
     return (
         <div className={styles.dashboardpageContainer}>
             {/*         Dashboard Navbar        */}
-            <div className={`${styles.dashboardNav} flex dir-row align-center`}>
-                <div className="bg-transparent">
-                    <select name="" className={`${styles.workspaceNameContainer} bg-transparent text-white`} onChange={handleNavigation}>
-                        <option value="workspace" className="text-white bg-transparent">{userName}'s workspace</option>
-                        <option value="settings" className="text-white bg-transparent">Settings</option>
-                        <option value="logout" className="text-white bg-transparent">Log Out</option>
-                    </select>
-                </div>
-                <div className="flex dir-row align-center">
-                    {/* <ThemeSlider /> */}
-                </div>
-                <div className="flex align-center">
-                    <button className={`${styles.shareBtn} text-white text-16 font-wt-500 outline-none border-none bg-transparent`}>Share</button>
-                </div>
-            </div>
+            <DashboardNav userName={userName} />
             {/*         Dashboard Main Content          */}
             <div className={styles.dashboardMainContainer}>
                 <div className={styles.folderFormContainer}>

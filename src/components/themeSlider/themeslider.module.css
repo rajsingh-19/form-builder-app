@@ -1,24 +1,6 @@
 /* Container */
-.themeSliderContainer {
-    display: flex;
-    align-items: center;
-    /* justify-content: center; */
-    gap: 10px;
-}
-.lightLabel, .darkLabel {
-    color: #ffffff;
-    font-size: 14px; /* Adjust as needed */
-    font-weight: 500;
-    margin: 0 10px; /* Spacing between the label and slider */
-}
-.lightLabel {
-    order: 1;
-}
-.darkLabel {
-    order: 3;
-}
 input[type="checkbox"] {
-    display: none; /* Hide the checkbox */
+    display: none;
 }
 /* Slider Styles */
 .themeSlider {

@@ -1,41 +1,56 @@
-import { useEffect, useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ThemeSlider from '../themeSlider/ThemeSlider';
+import styles from "../../pages/dashboardpage/dashboard.module.css"
+import downArrow from "../../assets/downArrow.svg";
 
-const Navbar = () => {
-    const [workspaceName, setWorkspaceName] = useState('');
-    const [isShared, setIsShared] = useState(false);
+const DashboardNav = ({ userName }) => {
+    const [isOpen, setIsOpen] = useState(false);
 
-    useEffect(() => {
-        const fetchDashboard = async () => {
-            const token = localStorage.getItem('authToken'); // Or get the token via another method
-            if (token) {
-                try {
-                    const response = await axios.get(`/api/dashboard/invite/${token}`);
-                    const { sharedUserName, dashboard } = response.data;
+    const navigate = useNavigate();
 
-                    // If the dashboard is shared, set the shared user's name
-                    if (sharedUserName) {
-                        setWorkspaceName(`${sharedUserName}'s Workspace`);
-                        setIsShared(true);
-                    } else {
-                        setWorkspaceName(`${dashboard.owner.userName}'s Workspace`);
-                    }
-                } catch (error) {
-                    console.error('Error fetching dashboard:', error);
-                }
-            }
-        };
+    const handleSettings = () => {
+        navigate('/setting');
+    };
 
-        fetchDashboard();
-    }, []);
+    const handleLogout = () => {
+        // Remove user data from localStorage (i.e., token and userId)
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        localStorage.removeItem("dashboardId");
+        
+        // Redirect the user to the login page
+        navigate("/login");
+    };
+
+    const handleOpenOption  = () => {
+        setIsOpen((prev) => !prev);
+    };
 
     return (
-        <nav>
-            <div className="workspace-name">
-                {isShared ? workspaceName : 'Your Workspace'}
+        <nav className={`${styles.dashboardNav} flex dir-row align-center justify-space-btwn `}>
+            <div className={`${styles.optionContainer} flex dir-col align-center justify-center position-relative`}>
+                <div className={`${styles.eachOption} flex dir-row align-center justify-space-btwn p-lr-10 position-relative`}>
+                    <p className='text-white m-r-10'>{userName}'s workspace</p>
+                    <img className='cursor-pointer' src={downArrow} alt="Down Arrow Icon" onClick={handleOpenOption} />
+                </div>
+                {isOpen && ( 
+                    <div className={styles.dropdown}>
+                        <div className={`${styles.eachOption} text-white flex align-center p-lr-10 cursor-pointer`} onClick={handleSettings} >Settings</div>
+                        <div className={`${styles.eachOption} ${styles.optionLogout} text-white flex align-center p-lr-10 cursor-pointer`} onClick={handleLogout} >Log Out</div>
+                    </div>
+                )}
+            </div>
+            <div className='flex dir-row align-center'>
+                <span className="text-white m-lr-10">Light</span>
+                <ThemeSlider />
+                <span className="text-white m-lr-10">Dark</span>
+            </div>
+            <div className="flex align-center">
+                <button className={`${styles.shareBtn} text-white text-16 font-wt-500 outline-none border-none bg-transparen cursor-pointer`}>Share</button>
             </div>
         </nav>
     );
 };
 
-export default Navbar;
+export default DashboardNav;
