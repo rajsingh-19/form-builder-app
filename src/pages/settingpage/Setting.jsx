@@ -82,25 +82,25 @@ const SettingPage = () => {
         <div className={`${styles.settingInpContainer} flex dir-row align-center m-b-20`}>
           <img className={`${styles.inputIconsProfile} m-lr-10`} src={profile} alt="profile icon" />
           <input className={`${styles.settingInput} outline-none border-none bg-transparent text-white text-20`} type="text" placeholder='Name' name='userName' value={updateFormData.userName} onChange={(e) => setUpdateFormData({...updateFormData, [e.target.name]: e.target.value})} />
-          {errors.userName && <p className="error-text">{errors.userName}</p>}
+          {errors.userName && <p className="error-message">{errors.userName}</p>}
         </div>
         <div className={`${styles.settingInpContainer} flex dir-row align-center m-b-20`}>
           <img className={styles.inputIcons} src={lock} alt="lock icon" />
           <input className={`${styles.settingInput} outline-none border-none bg-transparent text-white text-20`} type={showEmail ? "text" : "email"}  placeholder='Update Email' name='email' value={updateFormData.email} onChange={(e) => setUpdateFormData({...updateFormData, [e.target.name]: e.target.value})} />
           <img className={styles.inputIcons} src={view} alt="view icon" onClick={() => setShowEmail(prevState => !prevState)} />
-          {errors.email && <p className="error-text">{errors.email}</p>}
+          {errors.email && <p className="error-message">{errors.email}</p>}
         </div>
         <div className={`${styles.settingInpContainer} flex dir-row align-center m-b-20`}>
           <img className={styles.inputIcons} src={lock} alt="lock icon" />
           <input className={`${styles.settingInput} outline-none border-none bg-transparent text-white text-20`} type={showOldPassword ? "text" : "password"} placeholder='Old Password' name='oldPassword' value={updateFormData.oldPassword} onChange={(e) => setUpdateFormData({...updateFormData, [e.target.name]: e.target.value})} />
           <img className={styles.inputIcons} src={view} alt="view icon" onClick={() => setShowOldPassword(!showOldPassword)} />
-          {errors.oldPassword && <p className="error-text">{errors.oldPassword}</p>}
+          {errors.oldPassword && <p className="error-message">{errors.oldPassword}</p>}
         </div>
         <div className={`${styles.settingInpContainer} flex dir-row align-center m-b-40`}>
           <img className={styles.inputIcons} src={lock} alt="lock icon" />
           <input className={`${styles.settingInput} outline-none border-none bg-transparent text-white text-20`} type={showNewPassword ? "text" : "password"} placeholder='New Password' name='newPassword' value={updateFormData.newPassword} onChange={(e) => setUpdateFormData({...updateFormData, [e.target.name]: e.target.value})} />
           <img className={styles.inputIcons} src={view} alt="view icon" onClick={() => setShowNewPassword(!showNewPassword)} />
-          {errors.newPassword && <p className="error-text">{errors.newPassword}</p>}
+          {errors.newPassword && <p className="error-message">{errors.newPassword}</p>}
         </div>
         <div>
           <button className={`${styles.updateBtn} font-open-sans font-wt-400 text-20 text-white outline-none border-none cursor-pointer`} type='submit'>Update</button>

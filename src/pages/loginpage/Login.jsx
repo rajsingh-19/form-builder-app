@@ -43,29 +43,37 @@ const LoginPage = () => {
 
         if (!validateForm()) return;
 
-        const res = await loginUser(loginFormData);       // Call the login service
-        if(res.status === 200) {
-            const data = await res.json();
+        try {
+            const res = await loginUser(loginFormData);       // Call the login service
+            
+            if(res.status === 200) {
+                const data = await res.json();
 
-            // Extract the token and userId
-            const token = data.token;
-            const userId = data.userId;
+                // Extract the token and userId
+                const token = data.token;
+                const userId = data.userId;
 
-            // Save token or userId in localStorage
-            localStorage.setItem("token", token); // Save token for later use
-            localStorage.setItem("userId", userId); // Save userId
+                // Save token or userId in localStorage
+                localStorage.setItem("token", token); // Save token for later use
+                localStorage.setItem("userId", userId); // Save userId
 
-            // Reset form data after successful registration
-            setLoginFormData({
-                email: '',
-                password: '',
-            });
-            alert("Login Successfully");
-            navigate(`/dashboard/${userId}`); // Navigate to the dashboard with userId
-        } else {
-            console.log(res);
-            alert("An Error Occured");
-        } 
+                // Reset form data after successful registration
+                setLoginFormData({
+                    email: '',
+                    password: '',
+                });
+                alert("Login Successfully");
+                navigate(`/dashboard/${userId}`); // Navigate to the dashboard with userId
+            } else {
+                // Extract the error message from the response if available
+                const errorData = await res.json();
+                const errorMessage = errorData.message || "An error occurred"; // Default message if no message exists
+                alert(errorMessage);  // Show the error message from the backend
+            } 
+        } catch (error) {
+            console.log(error);
+            alert("An unexpected error occurred:", error);
+        }
     };
       
     const handlePrevBtn = () => {       //      function for go to landing page 

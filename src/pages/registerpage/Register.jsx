@@ -98,22 +98,22 @@ const RegisterPage = () => {
         <div className='flex dir-col m-b-15'>
           <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Username</label>
           <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='Enter a username' name={"userName"} value={registerFormData.userName} onChange={(e) => setRegisterFormData({...registerFormData, [e.target.name]: e.target.value})} />
-          {errors.userName && <p className="error-text">{errors.userName}</p>}
+          {errors.userName && <p className="error-message">{errors.userName}</p>}
         </div>
         <div className='flex dir-col m-b-15'>
           <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Email</label>
           <input type="email" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='Enter your email' name={"email"} value={registerFormData.email} onChange={(e) => setRegisterFormData({...registerFormData, [e.target.name]: e.target.value})} />
-          {errors.email && <p className="error-text">{errors.email}</p>}
+          {errors.email && <p className="error-message">{errors.email}</p>}
         </div>
         <div className='flex dir-col m-b-15'>
           <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Password</label>
           <input type="password" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='**********' name={"password"} value={registerFormData.password} onChange={(e) => setRegisterFormData({...registerFormData, [e.target.name]: e.target.value})} />
-          {errors.password && <p className="error-text">{errors.password}</p>}
+          {errors.password && <p className="error-message">{errors.password}</p>}
         </div>
         <div className='flex dir-col m-b-15'>
           <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Confirm Password</label>
           <input type="password" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='**********' name={"confirmPassword"} value={registerFormData.confirmPassword} onChange={(e) => setRegisterFormData({...registerFormData, [e.target.name]: e.target.value})} />
-          {errors.confirmPassword && <p className="error-text">{errors.confirmPassword}</p>}
+          {errors.confirmPassword && <p className="error-message">{errors.confirmPassword}</p>}
         </div>
         <div className='m-b-10'>
           <button className='signup-login-btn outline-none border-none cursor-pointer text-white m-b-10 text-14 letter-spacing-2 font-wt-500 font-poppins' type="submit">Sign Up</button>

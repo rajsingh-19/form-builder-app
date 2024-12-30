@@ -198,6 +198,12 @@
 }
 
 /*                login and sign up page         */
+.error-message {
+  padding-top: 8px;
+  font-size: 16px;
+  color: red;
+}
+
 .register-login-container {
   overflow: hidden;
   /* width: 100vw; */
@@ -274,4 +280,31 @@
 .backArrowIcon {
   width: 100%;
   height: 100%;
+}
+
+
+
+
+/*          not found page       */
+.not-found-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+  font-family: 'Arial', sans-serif;
+  text-align: center;
+}
+
+.not-found-container h1 {
+  font-size: 80px;
+  font-weight: bold;
+  color: #ff6347;  /* Tomato color */
+  margin: 0;
+}
+.not-found-container p {
+  font-size: 18px;
+  color: #555;
+  margin-top: 20px;
 }
