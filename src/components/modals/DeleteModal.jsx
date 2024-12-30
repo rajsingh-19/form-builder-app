@@ -15,6 +15,6 @@ const DeleteModal = ({type, onConfirm, onCancel}) => {
         </div>
     </div>
   )
-}
+};
 
 export default DeleteModal;

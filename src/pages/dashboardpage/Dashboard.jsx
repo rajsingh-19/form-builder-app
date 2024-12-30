@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchDashboardData, createDashboard, createFolder, createForm } from "../../services/index";
+import { fetchDashboardData, createDashboard, createFolder, createForm, deleteFolder } from "../../services/index";
 import DashboardNav from "../../components/dashboardNav/DashboardNav";
 import styles from "./dashboard.module.css";
 import CreateModal from "../../components/modals/CreateModal";
@@ -16,6 +16,7 @@ const DashboardPage = () => {
     const [forms, setForms] = useState([]);
     const [modalData, setModalData] = useState({ isVisible: false, title: "", onSubmit: null });
     const [deleteModalData, setDeleteModalData] = useState({ isVisible: false, folderId: null });
+    const [dashboardId, setDashboardId] = useState(localStorage.getItem("dashboardId"));
 
     // For navigation control
     const navigate = useNavigate();
@@ -45,15 +46,16 @@ const DashboardPage = () => {
                       setFolders(newDashboard.folders || []);
                       setForms(newDashboard.forms || []);
                       setUserName(newDashboard.userName || "User");
+                      setDashboardId(newDashboard._id); // Update dashboardId state
+                      localStorage.setItem('dashboardId', newDashboard._id);
                     }
-                    // Store the dashboardId in localStorage
-                    localStorage.setItem('dashboardId', newDashboard._id);  // Set the dashboardId
                   } else {
                     // If dashboard exists, populate data
-                    setFolders(data.folders || []);
-                    setForms(data.forms || []);
+                    setFolders(data.dashboard.folders || []);
+                    setForms(data.dashboard.forms || []);
                     setUserName(data.userName || "User");
                     // Store the existing dashboardId in localStorage
+                    setDashboardId(data.dashboard._id); // Update dashboardId state
                     localStorage.setItem('dashboardId', data.dashboard._id);  // Set the dashboardId
                   }
             } catch (err) {
@@ -78,6 +80,11 @@ const DashboardPage = () => {
 
     // Open the "Create Folder" modal
     const handleCreateFolder = () => {
+        if (!dashboardId) {
+            alert("Dashboard ID is missing. Please try again later.");
+            return;
+        };
+
         setModalData({
           isVisible: true,
           title: "Create a Folder",
@@ -90,16 +97,15 @@ const DashboardPage = () => {
             console.log("Creating folder with name:", folderName); // Debug log
 
             try {
-                const response = await createFolder({ userId, folderName });
+                const response = await createFolder({ userId, folderName, dashboardId });
                 const newFolder = await response.json();
 
                 if (response.ok) {
-                    console.log("Folder created:", newFolder); // Debug log
-                    setFolders([...folders, newFolder]); // Update state with new folder
+                    setFolders((prevFolders) => [...prevFolders, newFolder]);   // Update state with new folder
                     alert("Folder created successfully.");
                 } else {
-                    console.error("Error creating folder:", newFolder.message);
-                    alert("Failed to create folder. " + (newFolder.message || ""));
+                    console.error("Error:", newFolder.message);
+                    alert("Failed to create folder: " + (newFolder.message || ""));
                 }
             } catch (err) {
                 console.error("Error creating folder:", err);
@@ -116,14 +122,30 @@ const DashboardPage = () => {
           isVisible: true,
           title: "Create a Form",
           onSubmit: async (formName) => {
+            //     Check if the foldername is empty
+            if (!formName) {
+                alert("Form name cannot be empty.");
+                return;
+            }
+            console.log("Creating form with name:", formName); // Debug log
+
             if(formName) {
                 try {
                     const res = await createForm({ userId, formName, folderId });       // Pass userId, formName, and folderId
-                    const newForm = await res.json();                                   // Parse the created form from the response
-                    setForms([...forms, newForm]);                                     // update form states
-                    window.alert("Form created");
+                    const newForm = await res.json();       
+                    
+                    if(res.ok) {
+                        console.log("Form created:", newForm); // Debug log
+                        console.log("formId", newForm._id);                    
+                        setForms((prevForms) => [...prevForms, newForm]);       // update form states
+                        window.alert("Form created");
+                    } else {
+                        console.error("Error:", newForm.message);
+                        alert("Failed to create form: " + (newForm.message || ""));
+                    }
                 } catch (err) {
                     console.error("Error creating form:", err);
+                    alert("An error occurred while creating the form.");
                 }
             };
             closeModal();           // Close the modal
@@ -142,11 +164,23 @@ const DashboardPage = () => {
     };
 
     // Handle deletion confirmation (for folders and forms)
-    const handleDeleteConfirm = () => {
+    const handleDeleteConfirm = async () => {
         if (deleteModalData.type === "folder") {
-            setFolders(folders.filter((folder) => folder.id !== deleteModalData.id));
+            try {
+                const response = await deleteFolder({ userId, folderId: deleteModalData.id, dashboardId });
+                console.log(response);
+                if (response.ok) {
+                    setFolders(folders.filter((folder) => folder._id !== deleteModalData.id));
+                    alert("Folder deleted successfully.");
+                } else {
+                    alert("Failed to delete folder.");
+                }
+            } catch (err) {
+                alert("An error occurred while deleting the folder.");
+            }
         } else if (deleteModalData.type === "form") {
             setForms(forms.filter((form) => form.id !== deleteModalData.id));
+            alert("Form deleted successfully.");
         }
         closeDeleteModal();             // Close delete modal after confirming
     };
@@ -172,7 +206,7 @@ const DashboardPage = () => {
                         </div>
                         <div className={`${styles.flexWrapNow} flex dir-row`}>
                             {folders.map((folder) => (
-                                <NewFolder key={folder.id} folderName={folder.folderName} folderId={folder.id} onDelete={() => openDeleteModal("folder", folder.id)} />
+                                <NewFolder key={folder._id} folderName={folder.name} folderId={folder._id} onDelete={() => openDeleteModal("folder", folder._id)} />
                             ))}
                         </div>
                     </div>

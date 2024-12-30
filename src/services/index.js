@@ -56,11 +56,9 @@ export const createDashboard = (userId) => {
         body: JSON.stringify({ userId })
     });
 };
-
   
 //          Create Folder API
-export const createFolder = (userId, folderName) => {
-    const dashboardId = localStorage.getItem('dashboardId');        // Extract the dashboardId from localStorage
+export const createFolder = ({ userId, folderName, dashboardId }) => {
     return fetch(`${apiUrl}api/folder/${dashboardId}/folder`, {
         method: "POST",
         headers: { 
@@ -70,10 +68,22 @@ export const createFolder = (userId, folderName) => {
         body: JSON.stringify({ userId, folderName }),
     })
 };
- 
+
+//          Delete folder api
+export const deleteFolder = ({ userId, folderId, dashboardId }) => {
+    return fetch(`${apiUrl}api/folder/${dashboardId}/folder/${folderId}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({ userId })
+    })
+}
+
 //          Create Form API
 export const createForm = (userId, formName, folderId = null) => {
-    return fetch(`${apiUrl}api/form`, {
+    return fetch(`${apiUrl}api/form/${dashboardId}/form`, {
         method: "POST",
         headers: { 
             'Content-Type': 'application/json' 
