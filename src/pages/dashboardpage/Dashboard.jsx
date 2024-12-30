@@ -102,21 +102,33 @@ const DashboardPage = () => {
           isVisible: true,
           title: "Create a Folder",
           onSubmit: async (folderName) => {
-            if(folderName) {
-                try {
-                    const res = await createFolder({ userId, folderName });         // Pass userId and folderName
-                    const newFolder = await res.json();                             // Parse the created folder from the response
-                    setFolders([...folders, newFolder]);    
-                    window.alert("Folder created");
-                } catch (err) {
-                    console.error("Error creating folder:", err);
+            //     Check if the foldername is empty
+            if (!folderName) {
+                alert("Folder name cannot be empty.");
+                return;
+            }
+            console.log("Creating folder with name:", folderName); // Debug log
+
+            try {
+                const response = await createFolder({ userId, folderName });
+                const newFolder = await response.json();
+
+                if (response.ok) {
+                    console.log("Folder created:", newFolder); // Debug log
+                    setFolders([...folders, newFolder]); // Update state with new folder
+                    alert("Folder created successfully.");
+                } else {
+                    console.error("Error creating folder:", newFolder.message);
+                    alert("Failed to create folder. " + (newFolder.message || ""));
                 }
+            } catch (err) {
+                console.error("Error creating folder:", err);
+                alert("An error occurred while creating the folder.");
             }
             closeModal();  // Close the modal
           }
         });
     };
-
 
     // Function to open the "Create Form" modal
     const handleCreateForm = (folderId=null) => {

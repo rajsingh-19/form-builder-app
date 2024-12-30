@@ -14,12 +14,34 @@ const LoginPage = () => {
         password: ''
     });
 
+    const [errors, setErrors] = useState({});
+
     // Initialize the useNavigate hook to programmatically navigate between routes
     const navigate = useNavigate();
+
+    const validateForm = () => {
+        const errors = {};
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (!loginFormData.email.trim()) {
+            errors.email = "Email is required";
+        } else if (!emailRegex.test(loginFormData.email)) {
+            errors.email = "Invalid email format";
+        }
+        
+        if (!loginFormData.password.trim()) {
+            errors.password = "Password is required";
+        }
+        
+        setErrors(errors);
+        return Object.keys(errors).length === 0;
+    };
     
     // Function to handle form submission for user login
     const handleLoginUser = async (e) => {
         e.preventDefault();     // Prevent default form submission behavior
+
+        if (!validateForm()) return;
 
         const res = await loginUser(loginFormData);       // Call the login service
         if(res.status === 200) {
@@ -65,11 +87,13 @@ const LoginPage = () => {
             <form onSubmit={handleLoginUser}>
                 <div className='flex dir-col m-b-15'>
                     <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Email</label>
-                    <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='Enter your email' name={"email"} value={loginFormData.email} onChange={(e) => setLoginFormData({...loginFormData, [e.target.name]: e.target.value})} />
+                    <input type="email" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='Enter your email' name={"email"} value={loginFormData.email} onChange={(e) => setLoginFormData({...loginFormData, [e.target.name]: e.target.value})} />
+                    {errors.email && <p className="error-message">{errors.email}</p>}
                 </div>
                 <div className='flex dir-col m-b-15'>
                     <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Password</label>
                     <input type="password" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='**********' name={"password"} value={loginFormData.password} onChange={(e) => setLoginFormData({...loginFormData, [e.target.name]: e.target.value})} />
+                    {errors.password && <p className="error-message">{errors.password}</p>}
                 </div>
                 <div className='m-b-10'>
                     <button className='signup-login-btn outline-none border-none cursor-pointer text-white m-b-10 text-14 letter-spacing-2 font-wt-500 font-poppins' type="submit">Log in</button>

@@ -16,11 +16,43 @@ const RegisterPage = () => {
     confirmPassword: ''
   });
 
+  const [errors, setErrors] = useState({});
+
   const navigate = useNavigate();     // Hook for navigating to other routes
+
+  // Form validation logic
+  const validateForm = () => {
+    const validationErrors = {};
+
+    if (!registerFormData.userName.trim()) {
+      validationErrors.userName = "Username is required.";
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(registerFormData.email)) {
+      validationErrors.email = "Invalid email format.";
+    }
+
+    if (registerFormData.password.length < 8) {
+      validationErrors.password = "Password must be at least 8 characters long.";
+    }
+
+    if (registerFormData.password !== registerFormData.confirmPassword) {
+      validationErrors.confirmPassword = "Passwords do not match.";
+    }
+
+    setErrors(validationErrors);
+    return Object.keys(validationErrors).length === 0;
+  };
 
   // Function to handle form submission for user registration
   const handleUserRegister = async (e) => {
     e.preventDefault();     // Prevent default form submission behavior
+
+    if (!validateForm()) {
+      return;
+    }
+
     //  check if the password and confirm password are same 
     if (registerFormData.password !== registerFormData.confirmPassword) {
       alert("Passwords do not match!");
@@ -48,6 +80,7 @@ const RegisterPage = () => {
   const handlePrevBtn = () => {
     navigate('/');
   };
+
   // Function to navigate to the login page
   const handleLoginBtn = () => {
     navigate('/login')
@@ -65,18 +98,22 @@ const RegisterPage = () => {
         <div className='flex dir-col m-b-15'>
           <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Username</label>
           <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='Enter a username' name={"userName"} value={registerFormData.userName} onChange={(e) => setRegisterFormData({...registerFormData, [e.target.name]: e.target.value})} />
+          {errors.userName && <p className="error-text">{errors.userName}</p>}
         </div>
         <div className='flex dir-col m-b-15'>
           <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Email</label>
-          <input type="text" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='Enter your email' name={"email"} value={registerFormData.email} onChange={(e) => setRegisterFormData({...registerFormData, [e.target.name]: e.target.value})} />
+          <input type="email" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='Enter your email' name={"email"} value={registerFormData.email} onChange={(e) => setRegisterFormData({...registerFormData, [e.target.name]: e.target.value})} />
+          {errors.email && <p className="error-text">{errors.email}</p>}
         </div>
         <div className='flex dir-col m-b-15'>
           <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Password</label>
           <input type="password" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='**********' name={"password"} value={registerFormData.password} onChange={(e) => setRegisterFormData({...registerFormData, [e.target.name]: e.target.value})} />
+          {errors.password && <p className="error-text">{errors.password}</p>}
         </div>
         <div className='flex dir-col m-b-15'>
           <label className='text-white letter-spacing-2 m-b-10 text-14 font-wt-500 font-poppins'>Confirm Password</label>
           <input type="password" className='input bg-transparent letter-spacing-2 outline-none font-wt-300 font-poppins' placeholder='**********' name={"confirmPassword"} value={registerFormData.confirmPassword} onChange={(e) => setRegisterFormData({...registerFormData, [e.target.name]: e.target.value})} />
+          {errors.confirmPassword && <p className="error-text">{errors.confirmPassword}</p>}
         </div>
         <div className='m-b-10'>
           <button className='signup-login-btn outline-none border-none cursor-pointer text-white m-b-10 text-14 letter-spacing-2 font-wt-500 font-poppins' type="submit">Sign Up</button>
