@@ -82,15 +82,28 @@ export const deleteFolder = ({ userId, folderId, dashboardId }) => {
 }
 
 //          Create Form API
-export const createForm = (userId, formName, folderId = null) => {
+export const createForm = ({ userId, dashboardId, formName, folderId = null }) => {
     return fetch(`${apiUrl}api/form/${dashboardId}/form`, {
         method: "POST",
         headers: { 
-            'Content-Type': 'application/json' 
+            'Content-Type': 'application/json',
+            'Authorization': `${localStorage.getItem('token')}` 
         },
         body: JSON.stringify({ userId, formName, folderId }),
     })
 };
+
+//          Delete Form API
+export const deleteForm = (formId) => {
+    return fetch(`${apiUrl}api/form/${formId}`, {
+        method: "DELETE",
+        headers: {
+            'Content-Type': "application/json",
+            'Authorization': `${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify(userId)
+    })
+}
 
 //          Fetch Form Data for FormBot
 export const fetchFormData = (formId) => {

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchDashboardData, createDashboard, createFolder, createForm, deleteFolder } from "../../services/index";
+import { fetchDashboardData, createDashboard, createFolder, createForm, deleteFolder, deleteForm } from "../../services/index";
 import DashboardNav from "../../components/dashboardNav/DashboardNav";
 import styles from "./dashboard.module.css";
 import CreateModal from "../../components/modals/CreateModal";
@@ -117,7 +117,12 @@ const DashboardPage = () => {
     };
 
     // Function to open the "Create Form" modal
-    const handleCreateForm = (folderId=null) => {
+    const handleCreateForm = ({ folderId=null }) => {
+        if (!dashboardId) {
+            alert("Dashboard ID is missing. Please try again later.");
+            return;
+        };
+
         setModalData({
           isVisible: true,
           title: "Create a Form",
@@ -131,9 +136,10 @@ const DashboardPage = () => {
 
             if(formName) {
                 try {
-                    const res = await createForm({ userId, formName, folderId });       // Pass userId, formName, and folderId
+                    const res = await createForm({ userId, dashboardId, formName, folderId });       // Pass userId, formName, and folderId
                     const newForm = await res.json();       
                     
+                    console.log(res);
                     if(res.ok) {
                         console.log("Form created:", newForm); // Debug log
                         console.log("formId", newForm._id);                    
@@ -169,6 +175,7 @@ const DashboardPage = () => {
             try {
                 const response = await deleteFolder({ userId, folderId: deleteModalData.id, dashboardId });
                 console.log(response);
+                
                 if (response.ok) {
                     setFolders(folders.filter((folder) => folder._id !== deleteModalData.id));
                     alert("Folder deleted successfully.");
@@ -176,11 +183,22 @@ const DashboardPage = () => {
                     alert("Failed to delete folder.");
                 }
             } catch (err) {
-                alert("An error occurred while deleting the folder.");
+                alert("An error occurred while deleting the folder ", err);
             }
         } else if (deleteModalData.type === "form") {
-            setForms(forms.filter((form) => form.id !== deleteModalData.id));
-            alert("Form deleted successfully.");
+            try {
+                const response = await deleteForm(formId);
+                console.log(response);
+
+                if(response.ok) {
+                    setForms(forms.filter((form) => form._id !== deleteModalData.id));
+                    alert("Form deleted successfully.");
+                } else {
+                    alert("Failed to delete folder.");
+                }
+            } catch (err) {
+                alert("An error occurred while deleting the folder ", err);
+            }
         }
         closeDeleteModal();             // Close delete modal after confirming
     };
@@ -219,7 +237,7 @@ const DashboardPage = () => {
                         </div>
                         <div className={`${styles.flexWrapNow} flex dir-row`}>
                             {forms.map((form) => (
-                                <NewForm key={form.id} formName={form.formName} formId={form.id} onDelete={() => openDeleteModal("form", form.id)} />
+                                <NewForm key={form._id} formName={form.name} formId={form._id} onDelete={() => openDeleteModal("form", form._id)} />
                             ))}
                         </div>
                     </div>
