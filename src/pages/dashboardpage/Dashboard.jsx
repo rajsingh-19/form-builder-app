@@ -94,7 +94,6 @@ const DashboardPage = () => {
                 alert("Folder name cannot be empty.");
                 return;
             }
-            console.log("Creating folder with name:", folderName); // Debug log
 
             try {
                 const response = await createFolder({ userId, folderName, dashboardId });
@@ -117,12 +116,7 @@ const DashboardPage = () => {
     };
 
     // Function to open the "Create Form" modal
-    const handleCreateForm = (folderId=null) => {
-        // Check for invalid folderId (e.g., SyntheticBaseEvent)
-        if (folderId && folderId.nativeEvent) {
-            console.warn("folderId was a Synthetic Event. Resetting to null.");
-            folderId = null; // Ensure it's treated as an outside folder case
-        }
+    const handleCreateForm = () => {
 
         if (!dashboardId) {
             alert("Dashboard ID is missing. Please try again later.");
@@ -133,39 +127,18 @@ const DashboardPage = () => {
           isVisible: true,
           title: "Create a Form",
           onSubmit: async (formName) => {
-            //     Check if the foldername is empty
 
             if (!formName) {
                 alert("Form name cannot be empty.");
                 return;
             }
-            console.log("Creating form with name:", formName); // Debug log
 
             try {
-                console.log("Calling createForm with:", { userId, dashboardId, formName, folderId }); 
-                const response = await createForm({ userId, dashboardId, formName, folderId });
-                console.log(response);
-
+                const response = await createForm({ dashboardId, formName });
                 const newForm = await response.json();
-                console.log("Parsed JSON response:", newForm); // Log parsed response
                 
-
                 if (response.ok) {
-                    console.log("Form created:", newForm); // Debug log
-                    console.log("formId", newForm._id);    
-                    // If form is inside a folder, update that folder's forms
-                    if (folderId) {
-                        setFolders((prevFolders) =>
-                            prevFolders.map((folder) =>
-                                folder._id === folderId
-                                    ? { ...folder, forms: [...folder.forms, newForm] }
-                                    : folder
-                            )
-                        );
-                    } else {
-                        // For forms outside a folder, update standalone forms list
-                        setForms((prevForms) => [...prevForms, newForm]);
-                    }
+                    setForms((prevForms) => [...prevForms, newForm]);
                     window.alert("Form created successfully.");
                 } else {
                     console.error("Error:", newForm.message);
@@ -233,31 +206,25 @@ const DashboardPage = () => {
             {/*         Dashboard Main Content          */}
             <div className={styles.dashboardMainContainer}>
                 <div className={styles.folderFormContainer}>
+                    {/*                 Folders Container              */}
                     <div className={`${styles.flexWrapNow} flex dir-row`}>
-                        <div className={`${styles.flexWrapNow} m-r-10`}>
-                            <button className={`${styles.createFolderBtn} outline-none border-none cursor-pointer flex dir-row justify-center align-center`} onClick={handleCreateFolder}>
-                                <img src={createfolderIcon} alt="create folder icon" />
-                                <span className="font-open-sans font-wt-400 text-16 text-white">Create a folder</span>
-                            </button>
-                        </div>
-                        <div className={`${styles.flexWrapNow} flex dir-row`}>
-                            {folders.map((folder) => (
-                                <NewFolder key={folder._id} folderName={folder.name} folderId={folder._id} onDelete={() => openDeleteModal("folder", folder._id)} />
-                            ))}
-                        </div>
+                        <button className={`${styles.createFolderBtn} outline-none border-none cursor-pointer flex dir-row justify-center align-center`} onClick={handleCreateFolder}>
+                            <img src={createfolderIcon} alt="create folder icon" />
+                            <span className="font-open-sans font-wt-400 text-16 text-white">Create a folder</span>
+                        </button>
+                        {folders.map((folder) => (
+                            <NewFolder key={folder._id} folderName={folder.name} folderId={folder._id} onDelete={() => openDeleteModal("folder", folder._id)} />
+                        ))}
                     </div>
+                    {/*                 Forms Container              */}
                     <div className={`${styles.flexWrapNow} flex dir-row m-t-40`}>
-                        <div className="m-r-15">
-                            <button className={`${styles.createFormBtn} outline-none border-none cursor-pointer flex dir-col align-center justify-center`} onClick={handleCreateForm}>
-                                <img src={createformIcon} alt="create form icon" />
-                                <span className="font-open-sans font-wt-400 text-16 text-white">Create a typebot</span>
-                            </button>
-                        </div>
-                        <div className={`${styles.flexWrapNow} flex dir-row`}>
-                            {forms.map((form) => (
-                                <NewForm key={form._id} formName={form.name} formId={form._id} onDelete={() => openDeleteModal("form", form._id)} />
-                            ))}
-                        </div>
+                        <button className={`${styles.createFormBtn} outline-none border-none cursor-pointer flex dir-col align-center justify-center`} onClick={handleCreateForm}>
+                            <img src={createformIcon} alt="create form icon" />
+                            <span className="font-open-sans font-wt-400 text-16 text-white">Create a typebot</span>
+                        </button>
+                        {forms.map((form) => (
+                            <NewForm key={form._id} formName={form.name} formId={form._id} onDelete={() => openDeleteModal("form", form._id)} />
+                        ))}
                     </div>
                 </div>
             </div>

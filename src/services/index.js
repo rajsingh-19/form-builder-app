@@ -82,14 +82,14 @@ export const deleteFolder = ({ userId, folderId, dashboardId }) => {
 }
 
 //          Create Form API
-export const createForm = ({ userId, dashboardId, formName, folderId }) => {
+export const createForm = ({ dashboardId, formName }) => {
     return fetch(`${apiUrl}api/form/${dashboardId}/form`, {
         method: "POST",
         headers: { 
             'Content-Type': 'application/json',
             'Authorization': `${localStorage.getItem('token')}` 
         },
-        body: JSON.stringify({ userId, formName, folderId}),
+        body: JSON.stringify({ formName }),
     })
 };
 

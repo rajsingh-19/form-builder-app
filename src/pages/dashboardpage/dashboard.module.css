@@ -54,10 +54,12 @@
     width: 900px;
 }
 .createFolderBtn {
-    width: 150px;
+    width: 190px;
     height: 40px;
     border-radius: 6px;
     background-color: #FFFFFF14;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 .createFolderBtn img {
     margin-right: 5px;
@@ -67,6 +69,8 @@
     height: 210px;
     border-radius: 6px;
     background-color: #1A5FFF;
+    margin-left: 10px;
+    margin-right: 10px;
 }
 .createFormBtn img {
     margin-bottom: 25px;
