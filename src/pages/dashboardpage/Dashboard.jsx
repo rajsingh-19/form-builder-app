@@ -177,14 +177,14 @@ const DashboardPage = () => {
                     alert("Failed to delete folder.");
                 }
             } else if (deleteModalData.type === "form") {
-                const response = await deleteForm(formId);
+                const response = await deleteForm({ formId: deleteModalData.id });
                 console.log(response);
 
                 if(response.ok) {
                     setForms(forms.filter((form) => form._id !== deleteModalData.id));
                     alert("Form deleted successfully.");
                 } else {
-                    alert("Failed to delete folder.");
+                    alert("Failed to delete form.");
                 }
             }
         } catch (error) {

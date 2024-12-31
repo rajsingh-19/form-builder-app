@@ -94,14 +94,13 @@ export const createForm = ({ dashboardId, formName }) => {
 };
 
 //          Delete Form API
-export const deleteForm = (formId) => {
+export const deleteForm = ({ formId }) => {
     return fetch(`${apiUrl}api/form/${formId}`, {
         method: "DELETE",
         headers: {
             'Content-Type': "application/json",
             'Authorization': `${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify(userId)
+        }
     })
 }
 
