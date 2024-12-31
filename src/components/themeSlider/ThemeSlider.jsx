@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from "./themeSlider.module.css";
+import styles from "./themeslider.module.css";
 
 const ThemeSlider = () => {
   return (
