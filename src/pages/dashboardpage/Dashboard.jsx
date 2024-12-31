@@ -117,7 +117,13 @@ const DashboardPage = () => {
     };
 
     // Function to open the "Create Form" modal
-    const handleCreateForm = ({ folderId=null }) => {
+    const handleCreateForm = (folderId=null) => {
+        // Check for invalid folderId (e.g., SyntheticBaseEvent)
+        if (folderId && folderId.nativeEvent) {
+            console.warn("folderId was a Synthetic Event. Resetting to null.");
+            folderId = null; // Ensure it's treated as an outside folder case
+        }
+
         if (!dashboardId) {
             alert("Dashboard ID is missing. Please try again later.");
             return;
@@ -128,32 +134,47 @@ const DashboardPage = () => {
           title: "Create a Form",
           onSubmit: async (formName) => {
             //     Check if the foldername is empty
+
             if (!formName) {
                 alert("Form name cannot be empty.");
                 return;
             }
             console.log("Creating form with name:", formName); // Debug log
 
-            if(formName) {
-                try {
-                    const res = await createForm({ userId, dashboardId, formName, folderId });       // Pass userId, formName, and folderId
-                    const newForm = await res.json();       
-                    
-                    console.log(res);
-                    if(res.ok) {
-                        console.log("Form created:", newForm); // Debug log
-                        console.log("formId", newForm._id);                    
-                        setForms((prevForms) => [...prevForms, newForm]);       // update form states
-                        window.alert("Form created");
+            try {
+                console.log("Calling createForm with:", { userId, dashboardId, formName, folderId }); 
+                const response = await createForm({ userId, dashboardId, formName, folderId });
+                console.log(response);
+
+                const newForm = await response.json();
+                console.log("Parsed JSON response:", newForm); // Log parsed response
+                
+
+                if (response.ok) {
+                    console.log("Form created:", newForm); // Debug log
+                    console.log("formId", newForm._id);    
+                    // If form is inside a folder, update that folder's forms
+                    if (folderId) {
+                        setFolders((prevFolders) =>
+                            prevFolders.map((folder) =>
+                                folder._id === folderId
+                                    ? { ...folder, forms: [...folder.forms, newForm] }
+                                    : folder
+                            )
+                        );
                     } else {
-                        console.error("Error:", newForm.message);
-                        alert("Failed to create form: " + (newForm.message || ""));
+                        // For forms outside a folder, update standalone forms list
+                        setForms((prevForms) => [...prevForms, newForm]);
                     }
-                } catch (err) {
-                    console.error("Error creating form:", err);
-                    alert("An error occurred while creating the form.");
+                    window.alert("Form created successfully.");
+                } else {
+                    console.error("Error:", newForm.message);
+                    alert("Failed to create form: " + (newForm.message || ""));
                 }
-            };
+            } catch (err) {
+                console.error("Error creating form:", err);
+                alert("An error occurred while creating the form.");
+            }
             closeModal();           // Close the modal
           }
         });
@@ -171,22 +192,18 @@ const DashboardPage = () => {
 
     // Handle deletion confirmation (for folders and forms)
     const handleDeleteConfirm = async () => {
-        if (deleteModalData.type === "folder") {
-            try {
+        try {
+            if (deleteModalData.type === "folder") {
                 const response = await deleteFolder({ userId, folderId: deleteModalData.id, dashboardId });
                 console.log(response);
-                
+    
                 if (response.ok) {
                     setFolders(folders.filter((folder) => folder._id !== deleteModalData.id));
                     alert("Folder deleted successfully.");
                 } else {
                     alert("Failed to delete folder.");
                 }
-            } catch (err) {
-                alert("An error occurred while deleting the folder ", err);
-            }
-        } else if (deleteModalData.type === "form") {
-            try {
+            } else if (deleteModalData.type === "form") {
                 const response = await deleteForm(formId);
                 console.log(response);
 
@@ -196,9 +213,10 @@ const DashboardPage = () => {
                 } else {
                     alert("Failed to delete folder.");
                 }
-            } catch (err) {
-                alert("An error occurred while deleting the folder ", err);
             }
+        } catch (error) {
+            console.error("Error during deletion:", error);
+            alert("An error occurred while deleting the item.");
         }
         closeDeleteModal();             // Close delete modal after confirming
     };
