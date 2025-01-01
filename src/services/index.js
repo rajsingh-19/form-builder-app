@@ -58,26 +58,25 @@ export const createDashboard = (userId) => {
 };
   
 //          Create Folder API
-export const createFolder = ({ userId, folderName, dashboardId }) => {
+export const createFolder = ({ folderName, dashboardId }) => {
     return fetch(`${apiUrl}api/folder/${dashboardId}/folder`, {
         method: "POST",
         headers: { 
             'Content-Type': 'application/json',
             'Authorization': `${localStorage.getItem('token')}`
         },
-        body: JSON.stringify({ userId, folderName }),
+        body: JSON.stringify({ folderName }),
     })
 };
 
 //          Delete folder api
-export const deleteFolder = ({ userId, folderId, dashboardId }) => {
+export const deleteFolder = ({ folderId, dashboardId }) => {
     return fetch(`${apiUrl}api/folder/${dashboardId}/folder/${folderId}`, {
         method: "DELETE",
         headers: {
             'Content-Type': 'application/json',
             'Authorization': `${localStorage.getItem('token')}`
-        },
-        body: JSON.stringify({ userId })
+        }
     })
 }
 
@@ -89,18 +88,19 @@ export const createForm = ({ dashboardId, formName }) => {
             'Content-Type': 'application/json',
             'Authorization': `${localStorage.getItem('token')}` 
         },
-        body: JSON.stringify({ formName }),
+        body: JSON.stringify({ formName })
     })
 };
 
 //          Delete Form API
-export const deleteForm = ({ formId }) => {
+export const deleteForm = ({ formId, dashboardId }) => {
     return fetch(`${apiUrl}api/form/${formId}`, {
         method: "DELETE",
         headers: {
             'Content-Type': "application/json",
             'Authorization': `${localStorage.getItem('token')}`
-        }
+        },
+        body: JSON.stringify({ dashboardId })
     })
 }
 

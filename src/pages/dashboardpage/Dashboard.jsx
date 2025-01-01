@@ -96,11 +96,11 @@ const DashboardPage = () => {
             }
 
             try {
-                const response = await createFolder({ userId, folderName, dashboardId });
+                const response = await createFolder({ folderName, dashboardId });
                 const newFolder = await response.json();
 
                 if (response.ok) {
-                    setFolders((prevFolders) => [...prevFolders, newFolder]);   // Update state with new folder
+                    setFolders((prevFolders) => [...prevFolders, newFolder.newFolder]);   // Update state with new folder
                     alert("Folder created successfully.");
                 } else {
                     console.error("Error:", newFolder.message);
@@ -136,9 +136,9 @@ const DashboardPage = () => {
             try {
                 const response = await createForm({ dashboardId, formName });
                 const newForm = await response.json();
-                
+
                 if (response.ok) {
-                    setForms((prevForms) => [...prevForms, newForm]);
+                    setForms((prevForms) => [...prevForms, newForm.newForm]);
                     window.alert("Form created successfully.");
                 } else {
                     console.error("Error:", newForm.message);
@@ -167,8 +167,7 @@ const DashboardPage = () => {
     const handleDeleteConfirm = async () => {
         try {
             if (deleteModalData.type === "folder") {
-                const response = await deleteFolder({ userId, folderId: deleteModalData.id, dashboardId });
-                console.log(response);
+                const response = await deleteFolder({ folderId: deleteModalData.id, dashboardId });
     
                 if (response.ok) {
                     setFolders(folders.filter((folder) => folder._id !== deleteModalData.id));
@@ -177,7 +176,7 @@ const DashboardPage = () => {
                     alert("Failed to delete folder.");
                 }
             } else if (deleteModalData.type === "form") {
-                const response = await deleteForm({ formId: deleteModalData.id });
+                const response = await deleteForm({ formId: deleteModalData.id, dashboardId });
                 console.log(response);
 
                 if(response.ok) {
