@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchDashboardData, createDashboard, createFolder, createForm, deleteFolder, deleteForm } from "../../services/index";
+import { fetchDashboardData, createDashboard, createFolder, createForm, addFormToFolder, deleteFolder, deleteForm } from "../../services/index";
 import DashboardNav from "../../components/dashboardNav/DashboardNav";
 import styles from "./dashboard.module.css";
 import CreateModal from "../../components/modals/CreateModal";
@@ -18,6 +18,8 @@ const DashboardPage = () => {
     const [modalData, setModalData] = useState({ isVisible: false, title: "", onSubmit: null });
     const [deleteModalData, setDeleteModalData] = useState({ isVisible: false, folderId: null });
     const [openInviteModal, setOpenInviteModal] = useState({ isVisible: false });
+    const [activeFolderId, setActiveFolderId] = useState(null);
+
     const [dashboardId, setDashboardId] = useState(localStorage.getItem("dashboardId"));
 
     // For navigation control
@@ -136,11 +138,32 @@ const DashboardPage = () => {
             }
 
             try {
-                const response = await createForm({ dashboardId, formName });
+                let response;
+                if (activeFolderId) {
+                    // If a folder is selected, create the form inside that folder
+                    response = await addFormToFolder({ dashboardId, folderId: activeFolderId, formName });
+                } else {
+                    // Create the form outside of any folder
+                    response = await createForm({ dashboardId, formName });
+                }
+
+                // const response = await createForm({ dashboardId, formName });
                 const newForm = await response.json();
 
                 if (response.ok) {
-                    setForms((prevForms) => [...prevForms, newForm.newForm]);
+                    // If the form was created successfully, update the forms state
+                    if (activeFolderId) {
+                        // If inside a folder, update the forms for that specific folder
+                        const updatedFolders = folders.map((folder) =>
+                            folder._id === activeFolderId
+                                ? { ...folder, forms: [...folder.forms, newForm.newForm] }
+                                : folder
+                        );
+                        setFolders(updatedFolders);
+                    } else {
+                        // Otherwise, add the form to the global list
+                        setForms((prevForms) => [...prevForms, newForm.newForm]);
+                    }
                     window.alert("Form created successfully.");
                 } else {
                     console.error("Error:", newForm.message);
@@ -186,8 +209,24 @@ const DashboardPage = () => {
                 const response = await deleteForm({ formId: deleteModalData.id, dashboardId });
                 console.log(response);
 
-                if(response.ok) {
-                    setForms(forms.filter((form) => form._id !== deleteModalData.id));
+                if (response.ok) {
+                    // If the form was deleted successfully, remove it from the appropriate array (either global forms or folder's forms)
+                    if (activeFolderId) {
+                        // Form is inside a folder, so update the folder state
+                        const updatedFolders = folders.map((folder) => {
+                            if (folder._id === activeFolderId) {
+                                return {
+                                    ...folder,
+                                    forms: folder.forms.filter((form) => form._id !== deleteModalData.id),
+                                };
+                            }
+                            return folder;
+                        });
+                        setFolders(updatedFolders); // Update folders with the removed form
+                    } else {
+                        // If not inside a folder, remove from global forms
+                        setForms(forms.filter((form) => form._id !== deleteModalData.id));
+                    }
                     alert("Form deleted successfully.");
                 } else {
                     alert("Failed to delete form.");
@@ -210,6 +249,15 @@ const DashboardPage = () => {
         setOpenInviteModal({ isVisible: true });
     };
 
+    // Handle folder click
+    const handleFolderClick = (folderId) => {
+        if (activeFolderId === folderId) {
+            setActiveFolderId(null);  // Deselect the folder
+        } else {
+            setActiveFolderId(folderId);  // Select the folder and show respective forms
+        }
+    };
+
     return (
         <div className={styles.dashboardpageContainer}>
             {/*         Dashboard Navbar        */}
@@ -224,7 +272,9 @@ const DashboardPage = () => {
                             <span className="font-open-sans font-wt-400 text-16 text-white">Create a folder</span>
                         </button>
                         {folders.map((folder) => (
-                            <NewFolder key={folder._id} folderName={folder.name} folderId={folder._id} onDelete={() => openDeleteModal("folder", folder._id)} />
+                            <div key={folder._id} onClick={() => handleFolderClick(folder._id)} className={`${activeFolderId === folder._id ? styles.selectedFolder : ""}`}>
+                                <NewFolder folderName={folder.name} folderId={folder._id} onDelete={() => openDeleteModal("folder", folder._id)} className={activeFolderId === folder._id ? styles.selectedFolder : ""} />
+                            </div>
                         ))}
                     </div>
                     {/*                 Forms Container              */}
@@ -233,7 +283,9 @@ const DashboardPage = () => {
                             <img src={createformIcon} alt="create form icon" />
                             <span className="font-open-sans font-wt-400 text-16 text-white">Create a typebot</span>
                         </button>
-                        {forms.map((form) => (
+                        {activeFolderId ? folders.find((folder) => folder._id === activeFolderId).forms.map((form) => (
+                            <NewForm key={form._id} formName={form.name} formId={form._id} onDelete={() => openDeleteModal("form", form._id)} />
+                        )) : forms.map((form) => (
                             <NewForm key={form._id} formName={form.name} formId={form._id} onDelete={() => openDeleteModal("form", form._id)} />
                         ))}
                     </div>

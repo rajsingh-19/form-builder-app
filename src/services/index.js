@@ -69,6 +69,18 @@ export const createFolder = ({ folderName, dashboardId }) => {
     })
 };
 
+//          Add form to folder api
+export const addFormToFolder = ({ formName, dashboardId, folderId }) => {
+    return fetch(`${apiUrl}api/folder/${dashboardId}/folder/${folderId}/form`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({ formName })
+    })
+}
+
 //          Delete folder api
 export const deleteFolder = ({ folderId, dashboardId }) => {
     return fetch(`${apiUrl}api/folder/${dashboardId}/folder/${folderId}`, {
