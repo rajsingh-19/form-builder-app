@@ -5,6 +5,7 @@ import DashboardNav from "../../components/dashboardNav/DashboardNav";
 import styles from "./dashboard.module.css";
 import CreateModal from "../../components/modals/CreateModal";
 import DeleteModal from "../../components/modals/DeleteModal";
+import InviteModal from "../../components/modals/InviteModal";
 import NewFolder from "../../components/folder/NewFolder";
 import NewForm from "../../components/form/NewForm";
 import createfolderIcon from "../../assets/createfolder.svg";
@@ -16,6 +17,7 @@ const DashboardPage = () => {
     const [forms, setForms] = useState([]);
     const [modalData, setModalData] = useState({ isVisible: false, title: "", onSubmit: null });
     const [deleteModalData, setDeleteModalData] = useState({ isVisible: false, folderId: null });
+    const [openInviteModal, setOpenInviteModal] = useState({ isVisible: false });
     const [dashboardId, setDashboardId] = useState(localStorage.getItem("dashboardId"));
 
     // For navigation control
@@ -153,6 +155,11 @@ const DashboardPage = () => {
         });
     };
     
+    // Close Invite modal handler 
+    const closeInviteModal = () => {
+        setOpenInviteModal({isVisible: false });    
+    };
+
     // Close modal handler
     const closeModal = () => {
         setModalData({ ...modalData, isVisible: false });           // Close modal handler
@@ -198,10 +205,15 @@ const DashboardPage = () => {
         setDeleteModalData({ isVisible: false,  type: "", id: null });          // Reset delete modal state
     };
 
+    // Handle the Share button click to open the InviteModal
+    const handleShareButtonClick = () => {
+        setOpenInviteModal({ isVisible: true });
+    };
+
     return (
         <div className={styles.dashboardpageContainer}>
             {/*         Dashboard Navbar        */}
-            <DashboardNav userName={userName} />
+            <DashboardNav userName={userName} onShareButtonClick={handleShareButtonClick} />
             {/*         Dashboard Main Content          */}
             <div className={styles.dashboardMainContainer}>
                 <div className={styles.folderFormContainer}>
@@ -239,6 +251,12 @@ const DashboardPage = () => {
             <div className={styles.modalViewContainer}>
                 <CreateModal title={modalData.title} onSubmit={modalData.onSubmit} onCancel={closeModal} />
             </div>
+            )}
+            {/*         invite modal     */}
+            {openInviteModal.isVisible && (
+                <div className={styles.modalViewContainer}>
+                    <InviteModal onCancel={closeInviteModal} />
+                </div>
             )}
         </div>
     )

@@ -4,7 +4,7 @@ import ThemeSlider from '../themeSlider/ThemeSlider';
 import styles from "../../pages/dashboardpage/dashboard.module.css"
 import downArrow from "../../assets/downArrow.svg";
 
-const DashboardNav = ({ userName }) => {
+const DashboardNav = ({ userName, onShareButtonClick }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const navigate = useNavigate();
@@ -47,7 +47,7 @@ const DashboardNav = ({ userName }) => {
                 <span className="text-white m-lr-10">Dark</span>
             </div>
             <div className="flex align-center">
-                <button className={`${styles.shareBtn} text-white text-16 font-wt-500 outline-none border-none bg-transparen cursor-pointer`}>Share</button>
+                <button onClick={onShareButtonClick} className={`${styles.shareBtn} text-white text-16 font-wt-500 outline-none border-none bg-transparen cursor-pointer`}>Share</button>
             </div>
         </nav>
     );
