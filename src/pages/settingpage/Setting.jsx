@@ -46,6 +46,16 @@ const SettingPage = () => {
     e.preventDefault();
 
     if (!validateForm()) {
+      // Alert for general validation issues
+      if (errors.general) {
+        alert(errors.general);
+      }
+
+      // Alert specifically for password-related validation issues
+      if (errors.password) {
+        alert(errors.password);
+      }
+    
       return;
     }
 
