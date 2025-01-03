@@ -43,15 +43,17 @@ const DashboardNav = ({ onShareButtonClick }) => {
     return (
         <nav className={`${styles.dashboardNav} flex dir-row align-center justify-space-btwn `}>
             <div className={`${styles.optionContainer} flex dir-col align-center justify-center position-relative`}>
-                <div className={`${styles.eachOption} flex dir-row align-center justify-space-btwn p-lr-10 position-relative`}>
-                    <p className='text-white m-r-10'>{userName}'s workspace</p>
+                {/* <div className={`${styles.eachOption} flex dir-col align-center justify-space-btwn p-lr-10 position-relative`}> */}
+                    {/* <p className='text-white m-r-10'>{userName}'s workspace</p> */}
                     {userName?.map((username, index) => (
-                        <div key={index} className='m-r-10'>
+                        <div className={`${styles.eachOption} flex dir-col align-center justify-space-btwn p-lr-10 position-relative`}>
+                        <div key={index} className='text-white flex dir-col m-r-10'>
                             {username.name}
+                        </div>
                         </div>
                     ))}
                     <img className='cursor-pointer' src={downArrow} alt="Down Arrow Icon" onClick={handleOpenOption} />
-                </div>
+                {/* </div> */}
                 {isOpen && ( 
                     <div className={styles.dropdown}>
                         <div className={`${styles.eachOption} text-white flex align-center p-lr-10 cursor-pointer`} onClick={handleSettings} >Settings</div>
