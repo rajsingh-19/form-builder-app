@@ -11,6 +11,9 @@ import Response from "./pages/responsepage"
 import FormBot from "./pages/formbotpage";
 import NotFound from "./pages/notfound/NotFound";
 
+// import ResponsePage from "./pages/preyash/ResponsePage";
+// import Navbar from "./pages/preyash/Navbar";
+
 function App() {
   return (
     <Router>
@@ -21,12 +24,14 @@ function App() {
         {     /* Protect these routes       */}
         <Route path='/dashboard/:userId' element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
         <Route path="/setting" element={<ProtectedRoute><Setting /></ProtectedRoute>} />
-        <Route path="/workspace/:formId" element={<ProtectedRoute><Workspace /></ProtectedRoute>} />
+        <Route path="/workspace/:dashboardId/:formId/:folderId" element={<ProtectedRoute><Workspace /></ProtectedRoute>} />
         <Route path="/response/:formId" element={<ProtectedRoute><Response /></ProtectedRoute>} />
         {/* No protection for FormBot route */}
         <Route path="/formbot/:formId" element={<FormBot />} />
         {/* Catch all route for undefined paths */}
         <Route path="*" element={<NotFound />} />
+        {/* <Route path='/preyash/navbar' element={<Navbar/>} /> */}
+        {/* <Route path='/preyash/response' element={<ResponsePage />} /> */}
       </Routes>
     </Router>
   )

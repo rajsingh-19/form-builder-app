@@ -9,17 +9,17 @@ const FormBot = () => {
     const [responses, setResponses] = useState([]);
     const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
     
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await fetchFormData(formId);
-                setForm(data);
-            } catch (err) {
-                setError(err.message);
-            }
-        };
-        fetchData();
-    }, [formId]);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const data = await fetchFormData(formId);
+    //             setForm(data);
+    //         } catch (err) {
+    //             setError(err.message);
+    //         }
+    //     };
+    //     fetchData();
+    // }, []);
 
     const handleResponse = (inputId, value) => {
         setResponses((prevResponses) => {

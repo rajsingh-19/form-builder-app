@@ -9,6 +9,7 @@
     padding: 0 40px;
 }
 .optionContainer {
+    background-color: #1D1D1D;
     border-radius: 6px;
     border: 1px solid #FFFFFF29;
     border-radius: 6px;
@@ -23,6 +24,7 @@
     border-bottom: none;
 }
 .dropdown {
+    background-color: #1D1D1D;
     position: absolute;
     top: 100%;
     left: 0;
@@ -75,6 +77,12 @@
 .createFolderBtn img {
     margin-right: 5px;
 }
+.createFolderIcon {
+    background-color: #FFFFFF14;
+    color: #FFFFFF14;
+    border: 0.5px solid FFFFFF14;
+    background-color: #FFFFFF14;
+}
 .createFormBtn {
     width: 180px;
     height: 210px;
@@ -110,8 +118,6 @@
     height: 210px;
     border-radius: 6px;
     background-color: #FFFFFF80;
-    margin-left: 10px;
-    margin-right: 10px;
 }
 .cornerDeleteBtn {
     left: 170px;

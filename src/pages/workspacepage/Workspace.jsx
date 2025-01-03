@@ -1,24 +1,35 @@
 import React, { useEffect, useState } from "react";
 import { fetchFormData, submitFormResponse } from "../../services/index";
 import { useParams } from "react-router-dom";
+import WorkspaceNav from "../../components/workspaceNav/WorkspaceNav";
 import styles from "./workspace.module.css";
 
 const Workspace = () => {
-    const { formId } = useParams();
+    const { formId, dashboardId, folderId } = useParams();
     const [form, setForm] = useState({});
     const [responses, setResponses] = useState([]);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const formData = async () => {
           try {
-            const data = await fetchFormData(formId);
-            setForm(data);
-          } catch (err) {
-            console.log(err.message);
+              // console.log(formId, dashboardId, folderId);
+              const response = await fetchFormData({ formId, dashboardId, folderId });
+  
+              if (!response.ok) {
+                  console.error("Failed to fetch form data:", response.statusText);
+                  alert("Failed to open form. Please try again.");
+                  return;
+              };
+  
+              const formDetails = await response.json();
+              console.log(formDetails);
+          } catch (error) {
+              console.error("Error fetching form data:", error);
+              alert("An error occurred while opening the form. Please try again.");
           }
         };
-        fetchData();
-    }, [formId]);
+        formData();
+    },[]);
     
     const handleChange = (inputId, value) => {
         setResponses((prevResponses) => {
@@ -44,6 +55,7 @@ const Workspace = () => {
 
     return (
         <div>
+          <WorkspaceNav />
             <h1>{form.title}</h1>
             <form onSubmit={handleSubmit}>
                 {form.inputs?.map((input) => (

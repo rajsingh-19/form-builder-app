@@ -7,6 +7,16 @@
   margin: 0;
   box-sizing: border-box;
 }
+/*      new form     */
+body.dark .newForm {
+  width: 180px;
+  height: 210px;
+  border-radius: 6px;
+  background-color: #FFFFFF80;
+}
+
+body.light 
+
 /*    font families      */
 .font-poppins {
   font-family: "Poppins";

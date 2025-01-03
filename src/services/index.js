@@ -45,6 +45,17 @@ export const fetchDashboardData = (userId) => {
     })
 };
 
+//         Fetch collaborators dashboards data
+export const fetchDashboardDatas = (userId) => {
+    return fetch(`${apiUrl}api/dashboard/get/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `${localStorage.getItem('token')}`,
+      },
+    });
+};
+
 // Create Dashboard API
 export const createDashboard = (userId) => {
     return fetch(`${apiUrl}api/dashboard/create`, {
@@ -117,10 +128,25 @@ export const deleteForm = ({ formId, dashboardId }) => {
 }
 
 //          Fetch Form Data for FormBot
-export const fetchFormData = (formId) => {
-    return fetch(`${apiUrl}api/form/${formId}`, {
-        method: "GET"
+export const fetchFormData = ({ formId, dashboardId, folderId }) => {
+    // console.log(dashboardId, formId, folderId);
+    return fetch(`${apiUrl}api/form/${dashboardId}/${formId}/${folderId}`, {
+        method: "GET",
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `${localStorage.getItem('token')}`
+        }
     })
+};
+
+//          Fetch get users api
+export const getUser = (email) => {
+    return fetch(`${apiUrl}api/auth/getUser/${email}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
 };
   
 //          Submit Form Responses
@@ -133,6 +159,21 @@ export const submitFormResponse = (formId, responses) => {
         body: JSON.stringify({formId, responses})
     }) 
 };
+
+//          Share dashboard api
+export const shareDashboard = (accessMode, userId, dashboardId) => {
+    return fetch(
+      `${apiUrl}api/dashboard/shareDashboard/${userId}/${dashboardId}`,
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ accessMode }),
+      }
+    );
+  };
+  
 
 //          Fetch Form Analytics
 export const fetchFormAnalytics = (formId) => {

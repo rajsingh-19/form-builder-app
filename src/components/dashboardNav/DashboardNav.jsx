@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { fetchDashboardDatas } from '../../services';
 import ThemeSlider from '../themeSlider/ThemeSlider';
 import styles from "../../pages/dashboardpage/dashboard.module.css"
 import downArrow from "../../assets/downArrow.svg";
 
-const DashboardNav = ({ userName, onShareButtonClick }) => {
+const DashboardNav = ({ onShareButtonClick }) => {
     const [isOpen, setIsOpen] = useState(false);
+    const [userName, setUserName] = useState([]);
 
     const navigate = useNavigate();
 
@@ -27,11 +29,27 @@ const DashboardNav = ({ userName, onShareButtonClick }) => {
         setIsOpen((prev) => !prev);
     };
 
+    const fetchDashboards = async () => {
+        const response = await fetchDashboardDatas(localStorage.getItem('userId'));
+        const data = await response.json();
+        console.log(data);
+        setUserName(data.dashboards);
+    };
+    
+    useEffect(() => {
+        fetchDashboards();
+    }, []);
+
     return (
         <nav className={`${styles.dashboardNav} flex dir-row align-center justify-space-btwn `}>
             <div className={`${styles.optionContainer} flex dir-col align-center justify-center position-relative`}>
                 <div className={`${styles.eachOption} flex dir-row align-center justify-space-btwn p-lr-10 position-relative`}>
                     <p className='text-white m-r-10'>{userName}'s workspace</p>
+                    {userName?.map((username, index) => (
+                        <div key={index} className='m-r-10'>
+                            {username.name}
+                        </div>
+                    ))}
                     <img className='cursor-pointer' src={downArrow} alt="Down Arrow Icon" onClick={handleOpenOption} />
                 </div>
                 {isOpen && ( 

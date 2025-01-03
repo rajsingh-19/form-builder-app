@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchDashboardData, createDashboard, createFolder, createForm, addFormToFolder, deleteFolder, deleteForm } from "../../services/index";
+import { fetchDashboardData, createDashboard, createFolder, createForm, addFormToFolder, deleteFolder, deleteForm, fetchFormData } from "../../services/index";
 import DashboardNav from "../../components/dashboardNav/DashboardNav";
 import styles from "./dashboard.module.css";
 import CreateModal from "../../components/modals/CreateModal";
@@ -12,7 +12,7 @@ import createfolderIcon from "../../assets/createfolder.svg";
 import createformIcon from "../../assets/createform.svg";
 
 const DashboardPage = () => {
-    const [userName, setUserName] = useState("");
+    // const [userName, setUserName] = useState("");
     const [folders, setFolders] = useState([]);
     const [forms, setForms] = useState([]);
     const [modalData, setModalData] = useState({ isVisible: false, title: "", onSubmit: null });
@@ -43,13 +43,12 @@ const DashboardPage = () => {
                 const res = await fetchDashboardData(userId); // Fetch data for user ID
                 const data = await res.json();
 
-                if (!data.dashboard) {
+                if (!data.dashboards) {
                     // If no dashboard exists, create one
                     const newDashboard = await handleCreateDashboard(userId);
                     if (newDashboard) {
                       setFolders(newDashboard.folders || []);
                       setForms(newDashboard.forms || []);
-                      setUserName(newDashboard.userName || "User");
                       setDashboardId(newDashboard._id); // Update dashboardId state
                       localStorage.setItem('dashboardId', newDashboard._id);
                     }
@@ -57,7 +56,6 @@ const DashboardPage = () => {
                     // If dashboard exists, populate data
                     setFolders(data.dashboard.folders || []);
                     setForms(data.dashboard.forms || []);
-                    setUserName(data.userName || "User");
                     // Store the existing dashboardId in localStorage
                     setDashboardId(data.dashboard._id); // Update dashboardId state
                     localStorage.setItem('dashboardId', data.dashboard._id);  // Set the dashboardId
@@ -165,6 +163,7 @@ const DashboardPage = () => {
                         setForms((prevForms) => [...prevForms, newForm.newForm]);
                     }
                     window.alert("Form created successfully.");
+                    window.location.reload();
                 } else {
                     console.error("Error:", newForm.message);
                     alert("Failed to create form: " + (newForm.message || ""));
@@ -258,18 +257,24 @@ const DashboardPage = () => {
         }
     };
 
+    // Handle Form Clicks
+    const openFormHandler = async (formId, dashboardId, folderId) => {
+        // console.log({ formId, dashboardId, folderId });
+        navigate(`/workspace/${dashboardId}/${formId}/${folderId}`);
+    }
+
     return (
         <div className={styles.dashboardpageContainer}>
             {/*         Dashboard Navbar        */}
-            <DashboardNav userName={userName} onShareButtonClick={handleShareButtonClick} />
+            <DashboardNav onShareButtonClick={handleShareButtonClick} />
             {/*         Dashboard Main Content          */}
             <div className={styles.dashboardMainContainer}>
                 <div className={styles.folderFormContainer}>
                     {/*                 Folders Container              */}
                     <div className={`${styles.flexWrapNow} flex dir-row`}>
                         <button className={`${styles.createFolderBtn} outline-none border-none cursor-pointer flex dir-row justify-center align-center`} onClick={handleCreateFolder}>
-                            <img src={createfolderIcon} alt="create folder icon" />
-                            <span className="font-open-sans font-wt-400 text-16 text-white">Create a folder</span>
+                            <img src={createfolderIcon} className={styles.createFolderIcon} alt="create folder icon" />
+                            <span className="text-white font-open-sans font-wt-400 text-16">Create a folder</span>
                         </button>
                         {folders.map((folder) => (
                             <div key={folder._id} onClick={() => handleFolderClick(folder._id)} className={`${activeFolderId === folder._id ? styles.selectedFolder : ""}`}>
@@ -281,12 +286,12 @@ const DashboardPage = () => {
                     <div className={`${styles.flexWrapNow} flex dir-row m-t-40`}>
                         <button className={`${styles.createFormBtn} outline-none border-none cursor-pointer flex dir-col align-center justify-center`} onClick={handleCreateForm}>
                             <img src={createformIcon} alt="create form icon" />
-                            <span className="font-open-sans font-wt-400 text-16 text-white">Create a typebot</span>
+                            <span className="text-white font-open-sans font-wt-400 text-16">Create a typebot</span>
                         </button>
                         {activeFolderId ? folders.find((folder) => folder._id === activeFolderId).forms.map((form) => (
-                            <NewForm key={form._id} formName={form.name} formId={form._id} onDelete={() => openDeleteModal("form", form._id)} />
+                            <NewForm openForm={openFormHandler} folderId={activeFolderId} dashboardId={dashboardId} key={form._id} formName={form.name} formId={form._id} onDelete={() => openDeleteModal("form", form._id)} />
                         )) : forms.map((form) => (
-                            <NewForm key={form._id} formName={form.name} formId={form._id} onDelete={() => openDeleteModal("form", form._id)} />
+                            <NewForm openForm={openFormHandler} dashboardId={dashboardId} key={form._id} formName={form.name} formId={form._id} onDelete={() => openDeleteModal("form", form._id)} />
                         ))}
                     </div>
                 </div>

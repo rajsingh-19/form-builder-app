@@ -9,17 +9,17 @@ const Response = () => {
     const { formId } = useParams();
     const [analytics, setAnalytics] = useState(null);
 
-    useEffect(() => {
-        const fetchAnalytics = async () => {
-          try {
-            const data = await fetchFormAnalytics(formId);
-            setAnalytics(data);
-          } catch (err) {
-            setError(err.message);
-          }
-        };
-        fetchAnalytics();
-    }, [formId]);
+    // useEffect(() => {
+    //     const fetchAnalytics = async () => {
+    //       try {
+    //         const data = await fetchFormAnalytics(formId);
+    //         setAnalytics(data);
+    //       } catch (err) {
+    //         setError(err.message);
+    //       }
+    //     };
+    //     fetchAnalytics();
+    // }, []);
     
     if (error) {
         return <div>Error: {error}</div>;
