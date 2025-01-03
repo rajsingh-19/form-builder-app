@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { fetchDashboardData, createDashboard, createFolder, createForm, addFormToFolder, deleteFolder, deleteForm, fetchFormData } from "../../services/index";
+import { fetchDashboardData, createDashboard, createFolder, createForm, addFormToFolder, deleteFolder, deleteForm } from "../../services/index";
 import DashboardNav from "../../components/dashboardNav/DashboardNav";
 import styles from "./dashboard.module.css";
 import CreateModal from "../../components/modals/CreateModal";
@@ -12,7 +12,6 @@ import createfolderIcon from "../../assets/createfolder.svg";
 import createformIcon from "../../assets/createform.svg";
 
 const DashboardPage = () => {
-    // const [userName, setUserName] = useState("");
     const [folders, setFolders] = useState([]);
     const [forms, setForms] = useState([]);
     const [modalData, setModalData] = useState({ isVisible: false, title: "", onSubmit: null });
@@ -43,7 +42,7 @@ const DashboardPage = () => {
                 const res = await fetchDashboardData(userId); // Fetch data for user ID
                 const data = await res.json();
 
-                if (!data.dashboards) {
+                if (!data.dashboard) {
                     // If no dashboard exists, create one
                     const newDashboard = await handleCreateDashboard(userId);
                     if (newDashboard) {
